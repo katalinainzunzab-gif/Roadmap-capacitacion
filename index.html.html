@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap de Capacitación 2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --purple: #7F77DD; --purple-dark: #534AB7; --purple-light: #EEEDFE;
+  --teal: #1D9E75; --teal-dark: #0F6E56; --teal-light: #E1F5EE;
+  --pink: #D4537E; --pink-light: #FDF0F5;
+  --amber: #BA7517;
+  --bg: #F8F7F5; --bg2: #FFFFFF; --border: rgba(0,0,0,0.1);
+  --text: #2C2C2A; --text2: #5F5E5A; --text3: #888780;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1a18; --bg2: #242422; --border: rgba(255,255,255,0.1);
+    --text: #e8e6de; --text2: #b4b2a9; --text3: #888780;
+    --purple-light: #26215C; --teal-light: #04342C; --pink-light: #4B1528;
+  }
+}
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 2rem 1.5rem; }
+.page { max-width: 960px; margin: 0 auto; }
+
+header { margin-bottom: 2rem; }
+header h1 { font-size: 22px; font-weight: 600; color: var(--text); }
+header p { font-size: 13px; color: var(--text2); margin-top: 4px; }
+.badges { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
+.badge-purple { background: var(--purple-light); color: var(--purple-dark); }
+.badge-teal   { background: var(--teal-light);   color: var(--teal-dark); }
+.badge-pink   { background: var(--pink-light);    color: var(--pink); }
+
+.card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: 14px; padding: 1.5rem; margin-bottom: 1.5rem; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 1.5rem; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text2); }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.legend-diamond { width: 10px; height: 10px; border-radius: 2px; transform: rotate(45deg); flex-shrink: 0; }
+
+.edit-tip { display: flex; align-items: center; gap: 8px; background: var(--bg); border: 0.5px solid var(--border); border-radius: 8px; padding: 8px 12px; margin-bottom: 1.5rem; font-size: 12px; color: var(--text3); }
+.edit-tip svg { flex-shrink: 0; }
+
+.gantt { overflow-x: auto; }
+.gantt-inner { min-width: 680px; }
+
+.week-row { display: flex; margin-left: 180px; position: relative; height: 22px; margin-bottom: 4px; }
+.lane-title { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin: 14px 0 6px; }
+.lane-title.purple { color: var(--purple-dark); }
+.lane-title.teal   { color: var(--teal-dark); }
+.lane-title.pink   { color: var(--pink); }
+
+.row { display: flex; align-items: center; margin-bottom: 5px; }
+.row-label { width: 175px; min-width: 175px; font-size: 11px; color: var(--text); padding-right: 12px; line-height: 1.3; }
+.row-sub { font-size: 10px; color: var(--text3); margin-top: 1px; }
+.track { flex: 1; height: 26px; position: relative; background: var(--bg); border-radius: 4px; }
+.grid-line { position: absolute; top: 0; bottom: 0; width: 0.5px; background: var(--border); pointer-events: none; }
+.bar { position: absolute; height: 20px; top: 3px; border-radius: 4px; display: flex; align-items: center; padding: 0 7px; font-size: 10px; font-weight: 500; cursor: pointer; transition: filter 0.15s, transform 0.1s; white-space: nowrap; overflow: hidden; }
+.bar:hover { filter: brightness(0.88); transform: scaleY(1.05); }
+.bar.purple { background: var(--purple); color: var(--purple-light); }
+.bar.teal   { background: var(--teal);   color: var(--teal-light); }
+.bar.pink   { background: var(--pink);   color: var(--pink-light); }
+.bar.shared { background: var(--pink); color: var(--pink-light); opacity: 0.85; }
+.diamond { position: absolute; top: 50%; transform: translateY(-50%) translateX(-50%) rotate(45deg); width: 13px; height: 13px; cursor: pointer; z-index: 2; transition: transform 0.15s; }
+.diamond:hover { transform: translateY(-50%) translateX(-50%) rotate(45deg) scale(1.3); }
+.diamond-label { position: absolute; top: -16px; font-size: 9px; color: var(--text3); white-space: nowrap; transform: translateX(-50%); pointer-events: none; }
+
+.divider { height: 0.5px; background: var(--border); margin: 8px 0; }
+.shared-row-wrap { background: var(--pink-light); border-radius: 6px; border: 0.5px solid rgba(212,83,126,0.2); padding: 2px 0; margin-bottom: 5px; }
+
+.edit-panel { background: var(--bg2); border: 0.5px solid var(--border); border-radius: 12px; padding: 1.25rem; margin-top: 1.5rem; display: none; }
+.edit-panel h3 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 14px; }
+.field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+.field label { font-size: 11px; color: var(--text2); font-weight: 500; }
+.field input { font-size: 13px; padding: 7px 10px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
+.field input:focus { outline: none; border-color: var(--purple); box-shadow: 0 0 0 3px rgba(127,119,221,0.15); }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn-row { display: flex; gap: 8px; margin-top: 4px; }
+.btn-apply  { font-size: 12px; font-weight: 600; padding: 7px 18px; border-radius: 8px; background: var(--purple); border: none; color: #fff; cursor: pointer; font-family: 'Inter', sans-serif; transition: background 0.15s; }
+.btn-apply:hover { background: var(--purple-dark); }
+.btn-cancel { font-size: 12px; padding: 7px 14px; border-radius: 8px; background: transparent; border: 0.5px solid var(--border); color: var(--text2); cursor: pointer; font-family: 'Inter', sans-serif; }
+
+footer { text-align: center; font-size: 11px; color: var(--text3); margin-top: 2rem; padding-bottom: 1rem; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>Roadmap de capacitación 2025</h1>
+    <p>Dos rutas paralelas · Inicio: 01 julio · Cierre compartido: octubre</p>
+    <div class="badges">
+      <span class="badge badge-purple">Ruta Claude — Certificación</span>
+      <span class="badge badge-teal">Ruta IA Platzi</span>
+      <span class="badge badge-pink">Cierre compartido</span>
+    </div>
+  </header>
+
+  <div class="card">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div> Ruta Claude</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> Ruta IA Platzi</div>
+      <div class="legend-item"><div class="legend-diamond" style="background:var(--amber)"></div> Hito</div>
+      <div class="legend-item"><div class="legend-diamond" style="background:var(--pink)"></div> Hito compartido</div>
+    </div>
+
+    <div class="edit-tip">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Haz clic en cualquier etapa o hito para editar su nombre y fechas.
+    </div>
+
+    <div class="gantt">
+      <div class="gantt-inner" id="gantt"></div>
+    </div>
+
+    <div class="edit-panel" id="edit-panel">
+      <h3>✏️ Editar etapa</h3>
+      <div class="field">
+        <label>Nombre de la etapa</label>
+        <input type="text" id="ep-name">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Fecha inicio</label>
+          <input type="date" id="ep-start">
+        </div>
+        <div class="field-row" style="display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:11px;color:var(--text2);font-weight:500">Fecha fin</label>
+          <input type="date" id="ep-end" style="font-size:13px;padding:7px 10px;border-radius:8px;border:0.5px solid var(--border);background:var(--bg);color:var(--text);font-family:'Inter',sans-serif">
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-apply" onclick="applyEdit()">Aplicar cambios</button>
+        <button class="btn-cancel" onclick="cancelEdit()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>Generado con Claude · RRHH Startup EdTech · 2025</footer>
+</div>
+
+<script>
+const BASE = new Date('2025-07-01');
+const TOTAL_DAYS = 112;
+
+function dayOffset(ds) { return (new Date(ds) - BASE) / 86400000; }
+function toStr(d) { return d.toISOString().slice(0,10); }
+function addDays(ds, n) { const d = new Date(ds); d.setDate(d.getDate()+n); return toStr(d); }
+function fmt(ds) { return new Date(ds).toLocaleDateString('es-CL',{day:'numeric',month:'short'}); }
+function pct(ds) { return Math.max(0, Math.min(100, (dayOffset(ds)/TOTAL_DAYS)*100)); }
+
+let stages = [
+  {id:'t1', name:'Teaser 1: anuncio capacitaciones', lane:'shared', start:'2025-06-23', end:'2025-06-27', milestone:true},
+  {id:'t2', name:'Teaser 2: lanzamiento oficial',    lane:'shared', start:'2025-06-30', end:'2025-07-01', milestone:true},
+  {id:'c1', name:'Diseño del temario y contenidos',       lane:'claude', start:'2025-07-01', end:'2025-07-14', milestone:false},
+  {id:'c2', name:'Carga en Aula Virtual',                  lane:'claude', start:'2025-07-15', end:'2025-07-21', milestone:false},
+  {id:'c3', name:'Diseño y configuración de evaluación',   lane:'claude', start:'2025-07-22', end:'2025-07-28', milestone:false},
+  {id:'c4', name:'Apertura y ejecución evaluación',        lane:'claude', start:'2025-07-29', end:'2025-08-11', milestone:false},
+  {id:'cm1',name:'Cierre evaluaciones',                    lane:'claude', start:'2025-08-11', end:'2025-08-12', milestone:true},
+  {id:'c5', name:'Levantamiento de resultados',            lane:'claude', start:'2025-08-12', end:'2025-08-18', milestone:false},
+  {id:'c6', name:'Revisión formularios de acceso',         lane:'claude', start:'2025-08-19', end:'2025-08-25', milestone:false},
+  {id:'c7', name:'Asignación de accesos',                  lane:'claude', start:'2025-08-26', end:'2025-08-29', milestone:false},
+  {id:'cm2',name:'Accesos asignados',                      lane:'claude', start:'2025-08-29', end:'2025-08-30', milestone:true},
+  {id:'c8', name:'Seguimiento uso de Claude',              lane:'claude', start:'2025-09-01', end:'2025-09-29', milestone:false},
+  {id:'p1', name:'Reunión con líderes: levantamiento',     lane:'platzi', start:'2025-07-01', end:'2025-07-07', milestone:false},
+  {id:'p2', name:'Diseño rutas formativas en Platzi',      lane:'platzi', start:'2025-07-08', end:'2025-07-21', milestone:false},
+  {id:'pm1',name:'Rutas diseñadas',                        lane:'platzi', start:'2025-07-21', end:'2025-07-22', milestone:true},
+  {id:'p3', name:'Asignación de rutas a colaboradores',    lane:'platzi', start:'2025-07-22', end:'2025-07-28', milestone:false},
+  {id:'p4', name:'Seguimiento: cursos completados',        lane:'platzi', start:'2025-07-29', end:'2025-09-01', milestone:false},
+  {id:'pm2',name:'Punto de control avances',               lane:'platzi', start:'2025-08-25', end:'2025-08-26', milestone:true},
+  {id:'p5', name:'Seguimiento: rutas completadas',         lane:'platzi', start:'2025-09-01', end:'2025-09-22', milestone:false},
+  {id:'z1', name:'Presentación proyectos destacados',      lane:'shared', start:'2025-09-30', end:'2025-10-06', milestone:false},
+  {id:'z2', name:'Premiación Comité de Innovación',        lane:'shared', start:'2025-10-07', end:'2025-10-10', milestone:false},
+  {id:'zm1',name:'Cierre del programa',                    lane:'shared', start:'2025-10-10', end:'2025-10-11', milestone:true},
+];
+
+let editingId = null;
+
+function gridLines() {
+  let h = '';
+  for (let i=0; i<=TOTAL_DAYS; i+=7) h += `<div class="grid-line" style="left:${(i/TOTAL_DAYS)*100}%"></div>`;
+  return h;
+}
+
+function renderRow(s) {
+  const color = s.lane==='claude' ? 'purple' : s.lane==='platzi' ? 'teal' : 'pink';
+  const mColor = s.lane==='shared' ? '#D4537E' : s.lane==='claude' ? '#534AB7' : '#0F6E56';
+  const l = pct(s.start), r = pct(s.end), w = Math.max(r-l, 0.8);
+  const isShared = s.lane==='shared';
+  const wrap = isShared ? 'shared-row-wrap' : '';
+
+  if (s.milestone) {
+    return `<div class="${wrap}" style="display:flex;align-items:center;margin-bottom:5px;padding:2px 0">
+      <div class="row-label" style="font-size:10px;color:var(--text2)">🚩 ${s.name}</div>
+      <div class="track" style="height:22px">
+        ${gridLines()}
+        <div class="diamond" style="left:${l}%;background:${mColor}" onclick="openEdit('${s.id}')" title="${s.name}: ${fmt(s.start)}"></div>
+        <div class="diamond-label" style="left:${l}%">${fmt(s.start)}</div>
+      </div>
+    </div>`;
+  }
+
+  const label = w > 10 ? s.name : '';
+  return `<div class="${wrap}${isShared?'':' row'}">
+    <div class="row-label">
+      ${s.name}
+      <div class="row-sub">${fmt(s.start)} → ${fmt(s.end)}</div>
+    </div>
+    <div class="track">
+      ${gridLines()}
+      <div class="bar ${color}" style="left:${l}%;width:${w}%" onclick="openEdit('${s.id}')" title="${s.name}&#10;${fmt(s.start)} → ${fmt(s.end)}">
+        <span style="overflow:hidden;text-overflow:ellipsis">${label}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderWeeks() {
+  let h = '<div class="week-row">';
+  for (let i=0; i<=TOTAL_DAYS; i+=7) {
+    const d = new Date(BASE); d.setDate(d.getDate()+i-7);
+    const p = pct(toStr(d));
+    h += `<div style="position:absolute;left:${p}%;transform:translateX(-50%);font-size:9px;color:var(--text3)">${d.toLocaleDateString('es-CL',{day:'numeric',month:'short'})}</div>`;
+  }
+  return h + '</div>';
+}
+
+function render() {
+  const teasers = stages.filter(s=>s.id.startsWith('t'));
+  const claude  = stages.filter(s=>s.lane==='claude');
+  const platzi  = stages.filter(s=>s.lane==='platzi');
+  const cierre  = stages.filter(s=>s.lane==='shared'&&s.id.startsWith('z'));
+
+  document.getElementById('gantt').innerHTML = `
+    ${renderWeeks()}
+    <div class="lane-title pink">📣 Comunicaciones transversales</div>
+    ${teasers.map(renderRow).join('')}
+    <div class="divider"></div>
+    <div class="lane-title purple">🤖 Ruta Claude — Certificación</div>
+    ${claude.map(renderRow).join('')}
+    <div class="divider"></div>
+    <div class="lane-title teal">🎓 Ruta IA Platzi — Aprendizaje continuo</div>
+    ${platzi.map(renderRow).join('')}
+    <div class="divider"></div>
+    <div class="lane-title pink">🏆 Cierre compartido — Innovación</div>
+    ${cierre.map(renderRow).join('')}
+  `;
+}
+
+function openEdit(id) {
+  editingId = id;
+  const s = stages.find(x=>x.id===id);
+  document.getElementById('ep-name').value  = s.name;
+  document.getElementById('ep-start').value = s.start;
+  document.getElementById('ep-end').value   = s.end;
+  const panel = document.getElementById('edit-panel');
+  panel.style.display = 'block';
+  panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+function applyEdit() {
+  const s = stages.find(x=>x.id===editingId);
+  s.name  = document.getElementById('ep-name').value;
+  s.start = document.getElementById('ep-start').value;
+  s.end   = document.getElementById('ep-end').value;
+  document.getElementById('edit-panel').style.display = 'none';
+  editingId = null;
+  render();
+}
+function cancelEdit() {
+  document.getElementById('edit-panel').style.display = 'none';
+  editingId = null;
+}
+
+render();
+</script>
+</body>
+</html>
