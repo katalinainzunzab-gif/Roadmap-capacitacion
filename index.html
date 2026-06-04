@@ -128,17 +128,17 @@ footer { text-align: center; font-size: 11px; color: var(--text3); margin-top: 2
   <div class="meta-row">
     <div class="stat-card">
       <div class="stat-label">Inicio</div>
-      <div class="stat-value">1 jun</div>
-      <div class="stat-sub">2026</div>
+      <div class="stat-value" id="stat-inicio-val">—</div>
+      <div class="stat-sub" id="stat-inicio-sub">—</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Cierre</div>
-      <div class="stat-value">10 sep</div>
-      <div class="stat-sub">2026</div>
+      <div class="stat-value" id="stat-cierre-val">—</div>
+      <div class="stat-sub" id="stat-cierre-sub">—</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Etapas</div>
-      <div class="stat-value" id="stat-total">17</div>
+      <div class="stat-value" id="stat-total">—</div>
       <div class="stat-sub">en 2 rutas</div>
     </div>
     <div class="progress-card">
@@ -147,7 +147,7 @@ footer { text-align: center; font-size: 11px; color: var(--text3); margin-top: 2
         <span class="progress-pct" id="progress-pct">0%</span>
       </div>
       <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
-      <div class="progress-detail" id="progress-detail">0 de 17 etapas completadas</div>
+      <div class="progress-detail" id="progress-detail">—</div>
     </div>
   </div>
   <div class="card">
@@ -227,9 +227,7 @@ var DEFAULT_STAGES = [
   { id:'z2',  lane:'shared', start:'2026-09-10', end:'2026-09-10', milestone:true,  done:false, name:'Premiación Comité de Innovación' },
 ];
 
-// ── Persistencia completa: guarda etapas Y checks ──────────────────────────
 var LS_KEY = 'roadmap_stages_v1';
-
 function saveAll() {
   try { localStorage.setItem(LS_KEY, JSON.stringify(stages)); } catch(e) {}
 }
@@ -243,7 +241,6 @@ function loadAll() {
 
 var stages = loadAll();
 
-// ── Render helpers ─────────────────────────────────────────────────────────
 function gridLines() {
   var h = '';
   for (var i = 0; i <= TOTAL_DAYS; i += 7)
@@ -260,7 +257,6 @@ function renderRow(s) {
   var mColor = s.lane==='shared' ? 'var(--rose)' : s.lane==='claude' ? 'var(--purple)' : 'var(--teal)';
   var l = pct(s.start), r = pct(s.end), w = Math.max(r-l, 0.8);
   var del = '<button class="btn-del" onclick="deleteStage(\'' + s.id + '\')" title="Eliminar">✕</button>';
-
   if (s.milestone) {
     return '<div class="milestone-row' + (s.done?' done':'') + ' row">'
       + '<div class="row-label">' + checkBtn(s.id, s.done)
@@ -270,7 +266,6 @@ function renderRow(s) {
       + '<div class="diamond-label" style="left:' + l + '%">' + fmt(s.start) + '</div>'
       + '</div></div>';
   }
-
   var label = w > 10 ? s.name : '';
   return '<div class="row' + (s.done?' done':'') + '">'
     + '<div class="row-label">' + checkBtn(s.id, s.done)
@@ -303,6 +298,17 @@ function updateProgress() {
   document.getElementById('progress-pct').textContent  = p + '%';
   document.getElementById('progress-detail').textContent = done + ' de ' + total + ' etapas completadas';
   document.getElementById('stat-total').textContent = total;
+
+  // Inicio y cierre dinámicos
+  if (total > 0) {
+    var fmtStat = function(d) { return d.toLocaleDateString('es-CL', { day:'numeric', month:'short' }); };
+    var minDate = new Date(Math.min.apply(null, stages.map(function(s){ return parseLocal(s.start); })));
+    var maxDate = new Date(Math.max.apply(null, stages.map(function(s){ return parseLocal(s.end); })));
+    document.getElementById('stat-inicio-val').textContent = fmtStat(minDate);
+    document.getElementById('stat-inicio-sub').textContent = minDate.getFullYear();
+    document.getElementById('stat-cierre-val').textContent = fmtStat(maxDate);
+    document.getElementById('stat-cierre-sub').textContent = maxDate.getFullYear();
+  }
 }
 
 function render() {
@@ -310,14 +316,12 @@ function render() {
   var claude = stages.filter(function(s){ return s.lane==='claude'; });
   var platzi = stages.filter(function(s){ return s.lane==='platzi'; });
   var close  = stages.filter(function(s){ return s.lane==='shared' && s.id.startsWith('z'); });
-
   document.getElementById('gantt').innerHTML =
     renderWeeks() +
     '<div class="lane-block"><div class="lane-header rose"><div class="lane-title rose">📣 Comunicaciones transversales</div>' + addBtn('shared') + '</div>' + comm.map(renderRow).join('') + '</div>' +
     '<div class="lane-block" style="margin-top:8px"><div class="lane-header purple"><div class="lane-title purple">🤖 Ruta Claude — Certificación</div>' + addBtn('claude') + '</div>' + claude.map(renderRow).join('') + '</div>' +
     '<div class="lane-block" style="margin-top:8px"><div class="lane-header teal"><div class="lane-title teal">🎓 Ruta IA Platzi — Aprendizaje continuo</div>' + addBtn('platzi') + '</div>' + platzi.map(renderRow).join('') + '</div>' +
     '<div class="lane-block" style="margin-top:8px"><div class="lane-header rose"><div class="lane-title rose">🏆 Cierre compartido — Comité de Innovación</div>' + addBtn('shared_close') + '</div>' + close.map(renderRow).join('') + '</div>';
-
   updateProgress();
 }
 
@@ -387,4 +391,3 @@ render();
 </script>
 </body>
 </html>
-
