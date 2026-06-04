@@ -17,26 +17,21 @@
   --border: #E5E7EB; --border-strong: #D1D5DB;
   --text: #111827; --text2: #6B7280; --text3: #9CA3AF;
   --danger: #DC2626; --danger-light: #FEF2F2;
-  --green: #059669; --green-light: #ECFDF5;
+  --green: #059669;
   --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
   --shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.04);
 }
 body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 2.5rem 2rem; }
 .page { max-width: 1060px; margin: 0 auto; }
-
-/* ── Header ── */
 .header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 2rem; gap: 1rem; flex-wrap: wrap; }
-.header-left {}
 .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--purple); margin-bottom: 6px; }
 .header-left h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
-.header-left p { font-size: 13px; color: var(--text2); margin-top: 4px; font-weight: 400; }
+.header-left p { font-size: 13px; color: var(--text2); margin-top: 4px; }
 .header-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
 .badge { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 6px; border: 1px solid; }
 .badge-purple { background: var(--purple-light); color: var(--purple-dark); border-color: var(--purple-mid); }
 .badge-teal   { background: var(--teal-light);   color: var(--teal-dark);   border-color: var(--teal-mid); }
 .badge-rose   { background: var(--rose-light);   color: var(--rose);        border-color: var(--rose-mid); }
-
-/* ── Progress card ── */
 .meta-row { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
 .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; flex: 1; min-width: 140px; box-shadow: var(--shadow); }
 .stat-label { font-size: 11px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
@@ -49,11 +44,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 .progress-bar-bg { height: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 99px; overflow: hidden; }
 .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--purple) 0%, var(--teal) 100%); border-radius: 99px; transition: width 0.5s cubic-bezier(.4,0,.2,1); }
 .progress-detail { font-size: 11px; color: var(--text3); margin-top: 6px; }
-
-/* ── Main card ── */
 .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; box-shadow: var(--shadow); }
-
-/* ── Legend + tip ── */
 .legend-tip-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 10px; }
 .legend { display: flex; flex-wrap: wrap; gap: 16px; }
 .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--text2); font-weight: 500; }
@@ -61,8 +52,6 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 .legend-diamond { width: 8px; height: 8px; border-radius: 1px; transform: rotate(45deg); flex-shrink: 0; }
 .legend-check   { width: 14px; height: 14px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #fff; flex-shrink: 0; }
 .tip { font-size: 11px; color: var(--text3); background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; white-space: nowrap; }
-
-/* ── Gantt ── */
 .gantt { overflow-x: auto; }
 .gantt-inner { min-width: 720px; }
 .week-row { position: relative; height: 20px; margin-left: 214px; margin-bottom: 6px; border-bottom: 1px solid var(--border); }
@@ -77,20 +66,17 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 .lane-title.rose   { color: var(--rose); }
 .btn-add { font-size: 10.5px; font-weight: 500; padding: 3px 10px; border-radius: 5px; border: 1px solid var(--border-strong); background: var(--bg2); color: var(--text2); cursor: pointer; transition: all 0.15s; }
 .btn-add:hover { background: var(--bg); border-color: var(--purple); color: var(--purple-dark); }
-
 .row { display: flex; align-items: center; margin-bottom: 4px; }
 .row-label { width: 210px; min-width: 210px; font-size: 11px; color: var(--text); padding-right: 12px; line-height: 1.4; display: flex; align-items: flex-start; gap: 5px; }
 .row-label-text { flex: 1; }
 .row-name { font-weight: 500; }
-.row-sub { font-size: 10px; color: var(--text3); margin-top: 1px; font-weight: 400; }
-
+.row-sub { font-size: 10px; color: var(--text3); margin-top: 1px; }
 .btn-check { background: none; border: 1.5px solid var(--border-strong); border-radius: 50%; width: 15px; height: 15px; min-width: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 8px; color: transparent; transition: all 0.15s; flex-shrink: 0; margin-top: 2px; }
 .btn-check:hover { border-color: var(--green); color: var(--green); }
 .btn-check.checked { background: var(--green); border-color: var(--green); color: #fff; }
 .btn-del { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 11px; padding: 0 2px; flex-shrink: 0; transition: color 0.15s; margin-top: 2px; opacity: 0; }
-.row:hover .btn-del, .milestone-row:hover .btn-del, .shared-row-wrap:hover .btn-del { opacity: 1; }
+.row:hover .btn-del, .milestone-row:hover .btn-del { opacity: 1; }
 .btn-del:hover { color: var(--danger); }
-
 .track { flex: 1; height: 28px; position: relative; background: var(--bg); border-radius: 4px; }
 .grid-line { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--border); pointer-events: none; }
 .bar { position: absolute; height: 20px; top: 4px; border-radius: 5px; display: flex; align-items: center; padding: 0 8px; font-size: 10px; font-weight: 600; cursor: pointer; transition: filter 0.15s, opacity 0.2s; white-space: nowrap; overflow: hidden; }
@@ -99,21 +85,15 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 .bar.teal   { background: var(--teal);   color: #fff; }
 .bar.shared { background: var(--rose);   color: #fff; opacity: 0.9; }
 .row.done .row-name { text-decoration: line-through; opacity: 0.4; }
-.row.done .bar, .shared-row-wrap.done .bar, .milestone-row.done .diamond { opacity: 0.25; }
+.row.done .bar, .milestone-row.done .diamond { opacity: 0.25; }
 .row.done .row-sub { opacity: 0.4; }
-.shared-row-wrap.done .row-name { text-decoration: line-through; opacity: 0.4; }
 .milestone-row.done .ms-name { text-decoration: line-through; opacity: 0.4; }
-
 .diamond { position: absolute; top: 50%; transform: translateY(-50%) translateX(-50%) rotate(45deg); width: 12px; height: 12px; cursor: pointer; z-index: 2; transition: transform 0.15s; border-radius: 2px; }
 .diamond:hover { transform: translateY(-50%) translateX(-50%) rotate(45deg) scale(1.3); }
 .diamond-label { position: absolute; top: -15px; font-size: 9px; color: var(--text3); white-space: nowrap; transform: translateX(-50%); pointer-events: none; font-weight: 500; }
-
-.shared-row-wrap { border-radius: 6px; padding: 1px 0; margin-bottom: 4px; display: flex; align-items: center; background: transparent; }
-
-/* ── Modal ── */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 1rem; backdrop-filter: blur(2px); }
 .modal { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem; width: 100%; max-width: 420px; box-shadow: var(--shadow-md); }
-.modal h3 { font-size: 15px; font-weight: 700; margin-bottom: 1.25rem; color: var(--text); }
+.modal h3 { font-size: 15px; font-weight: 700; margin-bottom: 1.25rem; }
 .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
 .field label { font-size: 11px; color: var(--text2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
 .field input, .field select { font-size: 13px; padding: 8px 10px; border-radius: 7px; border: 1px solid var(--border-strong); background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; transition: border-color 0.15s; }
@@ -128,7 +108,6 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 .btn-secondary:hover { background: var(--bg); }
 .btn-danger { font-size: 12px; padding: 8px 14px; border-radius: 7px; background: var(--danger-light); border: none; color: var(--danger); cursor: pointer; font-family: 'Inter', sans-serif; margin-right: auto; }
 .btn-danger:hover { background: #FEE2E2; }
-
 footer { text-align: center; font-size: 11px; color: var(--text3); margin-top: 2rem; padding-bottom: 1rem; letter-spacing: 0.03em; }
 </style>
 </head>
@@ -146,7 +125,6 @@ footer { text-align: center; font-size: 11px; color: var(--text3); margin-top: 2
       </div>
     </div>
   </div>
-
   <div class="meta-row">
     <div class="stat-card">
       <div class="stat-label">Inicio</div>
@@ -172,7 +150,6 @@ footer { text-align: center; font-size: 11px; color: var(--text3); margin-top: 2
       <div class="progress-detail" id="progress-detail">0 de 17 etapas completadas</div>
     </div>
   </div>
-
   <div class="card">
     <div class="legend-tip-row">
       <div class="legend">
@@ -186,7 +163,6 @@ footer { text-align: center; font-size: 11px; color: var(--text3); margin-top: 2
     </div>
     <div class="gantt"><div class="gantt-inner" id="gantt"></div></div>
   </div>
-
   <footer>Generado con Claude &nbsp;·&nbsp; ADIPA &nbsp;·&nbsp; 2026</footer>
 </div>
 
@@ -251,162 +227,164 @@ var DEFAULT_STAGES = [
   { id:'z2',  lane:'shared', start:'2026-09-10', end:'2026-09-10', milestone:true,  done:false, name:'Premiación Comité de Innovación' },
 ];
 
-var LS_KEY = 'roadmap_done_v3';
-function saveDone() {
-  try { var s={}; stages.forEach(function(x){s[x.id]=x.done;}); localStorage.setItem(LS_KEY,JSON.stringify(s)); } catch(e) {}
+// ── Persistencia completa: guarda etapas Y checks ──────────────────────────
+var LS_KEY = 'roadmap_stages_v1';
+
+function saveAll() {
+  try { localStorage.setItem(LS_KEY, JSON.stringify(stages)); } catch(e) {}
 }
-function loadDone() {
-  try { var s=JSON.parse(localStorage.getItem(LS_KEY)||'{}'); stages.forEach(function(x){if(x.id in s)x.done=s[x.id];}); } catch(e) {}
+function loadAll() {
+  try {
+    var saved = JSON.parse(localStorage.getItem(LS_KEY));
+    if (saved && saved.length > 0) return saved;
+  } catch(e) {}
+  return DEFAULT_STAGES.map(function(s){ return Object.assign({}, s); });
 }
 
-var stages = DEFAULT_STAGES.map(function(s){ return Object.assign({},s); });
-loadDone();
+var stages = loadAll();
 
+// ── Render helpers ─────────────────────────────────────────────────────────
 function gridLines() {
-  var h='';
-  for(var i=0;i<=TOTAL_DAYS;i+=7) h+='<div class="grid-line" style="left:'+i/TOTAL_DAYS*100+'%"></div>';
+  var h = '';
+  for (var i = 0; i <= TOTAL_DAYS; i += 7)
+    h += '<div class="grid-line" style="left:' + (i/TOTAL_DAYS*100) + '%"></div>';
   return h;
 }
 
 function checkBtn(id, done) {
-  return '<button class="btn-check'+(done?' checked':'')+'" onclick="toggleDone(\''+id+'\')" title="'+(done?'Desmarcar':'Completar')+'">'+(done?'✓':'')+'</button>';
+  return '<button class="btn-check' + (done?' checked':'') + '" onclick="toggleDone(\'' + id + '\')" title="' + (done?'Desmarcar':'Completar') + '">' + (done?'✓':'') + '</button>';
 }
 
 function renderRow(s) {
-  var color  = s.lane==='claude'?'purple':s.lane==='platzi'?'teal':'shared';
-  var mColor = s.lane==='shared'?'var(--rose)':s.lane==='claude'?'var(--purple)':'var(--teal)';
-  var l=pct(s.start), r=pct(s.end), w=Math.max(r-l,0.8);
-  var del='<button class="btn-del" onclick="deleteStage(\''+s.id+'\')" title="Eliminar">✕</button>';
+  var color  = s.lane==='claude' ? 'purple' : s.lane==='platzi' ? 'teal' : 'shared';
+  var mColor = s.lane==='shared' ? 'var(--rose)' : s.lane==='claude' ? 'var(--purple)' : 'var(--teal)';
+  var l = pct(s.start), r = pct(s.end), w = Math.max(r-l, 0.8);
+  var del = '<button class="btn-del" onclick="deleteStage(\'' + s.id + '\')" title="Eliminar">✕</button>';
 
-  if(s.milestone){
-    return '<div class="milestone-row'+(s.done?' done':'')+' row">'
-      +'<div class="row-label">'+checkBtn(s.id,s.done)
-      +'<div class="row-label-text"><div class="row-name ms-name" style="font-size:10.5px;color:var(--text2)">◆ '+s.name+'</div></div>'+del+'</div>'
-      +'<div class="track" style="height:28px">'+gridLines()
-      +'<div class="diamond" style="left:'+l+'%;background:'+mColor+'" onclick="openEdit(\''+s.id+'\')" title="'+s.name+'"></div>'
-      +'<div class="diamond-label" style="left:'+l+'%">'+fmt(s.start)+'</div>'
-      +'</div></div>';
+  if (s.milestone) {
+    return '<div class="milestone-row' + (s.done?' done':'') + ' row">'
+      + '<div class="row-label">' + checkBtn(s.id, s.done)
+      + '<div class="row-label-text"><div class="row-name ms-name" style="font-size:10.5px;color:var(--text2)">◆ ' + s.name + '</div></div>' + del + '</div>'
+      + '<div class="track" style="height:28px">' + gridLines()
+      + '<div class="diamond" style="left:' + l + '%;background:' + mColor + '" onclick="openEdit(\'' + s.id + '\')" title="' + s.name + '"></div>'
+      + '<div class="diamond-label" style="left:' + l + '%">' + fmt(s.start) + '</div>'
+      + '</div></div>';
   }
 
-  var label = w>10?s.name:'';
-  return '<div class="row'+(s.done?' done':'')+'">'
-    +'<div class="row-label">'+checkBtn(s.id,s.done)
-    +'<div class="row-label-text"><div class="row-name">'+s.name+'</div><div class="row-sub">'+fmt(s.start)+' → '+fmt(s.end)+'</div></div>'+del+'</div>'
-    +'<div class="track">'+gridLines()
-    +'<div class="bar '+color+'" style="left:'+l+'%;width:'+w+'%" onclick="openEdit(\''+s.id+'\')" title="'+s.name+'">'
-    +'<span style="overflow:hidden;text-overflow:ellipsis">'+label+'</span></div></div></div>';
+  var label = w > 10 ? s.name : '';
+  return '<div class="row' + (s.done?' done':'') + '">'
+    + '<div class="row-label">' + checkBtn(s.id, s.done)
+    + '<div class="row-label-text"><div class="row-name">' + s.name + '</div><div class="row-sub">' + fmt(s.start) + ' → ' + fmt(s.end) + '</div></div>' + del + '</div>'
+    + '<div class="track">' + gridLines()
+    + '<div class="bar ' + color + '" style="left:' + l + '%;width:' + w + '%" onclick="openEdit(\'' + s.id + '\')" title="' + s.name + '">'
+    + '<span style="overflow:hidden;text-overflow:ellipsis">' + label + '</span></div></div></div>';
 }
 
 function addBtn(lane) {
-  return '<button class="btn-add" onclick="openAdd(\''+lane+'\')">＋ Agregar</button>';
+  return '<button class="btn-add" onclick="openAdd(\'' + lane + '\')">＋ Agregar</button>';
 }
 
 function renderWeeks() {
-  var h='<div class="week-row">';
-  for(var i=0;i<=TOTAL_DAYS;i+=7){
-    var d=new Date(2026,5,1); d.setDate(d.getDate()+i);
-    var p=i/TOTAL_DAYS*100;
-    h+='<div style="position:absolute;left:'+p+'%;transform:translateX(-50%);font-size:9.5px;font-weight:500;color:var(--text3)">'+d.toLocaleDateString('es-CL',{day:'numeric',month:'short'})+'</div>';
+  var h = '<div class="week-row">';
+  for (var i = 0; i <= TOTAL_DAYS; i += 7) {
+    var d = new Date(2026, 5, 1);
+    d.setDate(d.getDate() + i);
+    var p = i / TOTAL_DAYS * 100;
+    h += '<div style="position:absolute;left:' + p + '%;transform:translateX(-50%);font-size:9.5px;font-weight:500;color:var(--text3)">' + d.toLocaleDateString('es-CL',{day:'numeric',month:'short'}) + '</div>';
   }
-  return h+'</div>';
+  return h + '</div>';
 }
 
 function updateProgress() {
-  var total=stages.length, done=stages.filter(function(s){return s.done;}).length;
-  var p=total?Math.round(done/total*100):0;
-  document.getElementById('progress-fill').style.width=p+'%';
-  document.getElementById('progress-pct').textContent=p+'%';
-  document.getElementById('progress-detail').textContent=done+' de '+total+' etapas completadas';
-  document.getElementById('stat-total').textContent=total;
+  var total = stages.length;
+  var done  = stages.filter(function(s){ return s.done; }).length;
+  var p = total ? Math.round(done/total*100) : 0;
+  document.getElementById('progress-fill').style.width = p + '%';
+  document.getElementById('progress-pct').textContent  = p + '%';
+  document.getElementById('progress-detail').textContent = done + ' de ' + total + ' etapas completadas';
+  document.getElementById('stat-total').textContent = total;
 }
 
 function render() {
-  var comm  =stages.filter(function(s){return s.lane==='shared'&&!s.id.startsWith('z');});
-  var claude=stages.filter(function(s){return s.lane==='claude';});
-  var platzi=stages.filter(function(s){return s.lane==='platzi';});
-  var close =stages.filter(function(s){return s.lane==='shared'&&s.id.startsWith('z');});
+  var comm   = stages.filter(function(s){ return s.lane==='shared' && !s.id.startsWith('z'); });
+  var claude = stages.filter(function(s){ return s.lane==='claude'; });
+  var platzi = stages.filter(function(s){ return s.lane==='platzi'; });
+  var close  = stages.filter(function(s){ return s.lane==='shared' && s.id.startsWith('z'); });
 
-  document.getElementById('gantt').innerHTML=
-    renderWeeks()+
-    '<div class="lane-block">'+
-    '<div class="lane-header rose"><div class="lane-title rose">📣 Comunicaciones transversales</div>'+addBtn('shared')+'</div>'+
-    comm.map(renderRow).join('')+'</div>'+
-    '<div class="lane-block" style="margin-top:8px">'+
-    '<div class="lane-header purple"><div class="lane-title purple">🤖 Ruta Claude — Certificación</div>'+addBtn('claude')+'</div>'+
-    claude.map(renderRow).join('')+'</div>'+
-    '<div class="lane-block" style="margin-top:8px">'+
-    '<div class="lane-header teal"><div class="lane-title teal">🎓 Ruta IA Platzi — Aprendizaje continuo</div>'+addBtn('platzi')+'</div>'+
-    platzi.map(renderRow).join('')+'</div>'+
-    '<div class="lane-block" style="margin-top:8px">'+
-    '<div class="lane-header rose"><div class="lane-title rose">🏆 Cierre compartido — Comité de Innovación</div>'+addBtn('shared_close')+'</div>'+
-    close.map(renderRow).join('')+'</div>';
+  document.getElementById('gantt').innerHTML =
+    renderWeeks() +
+    '<div class="lane-block"><div class="lane-header rose"><div class="lane-title rose">📣 Comunicaciones transversales</div>' + addBtn('shared') + '</div>' + comm.map(renderRow).join('') + '</div>' +
+    '<div class="lane-block" style="margin-top:8px"><div class="lane-header purple"><div class="lane-title purple">🤖 Ruta Claude — Certificación</div>' + addBtn('claude') + '</div>' + claude.map(renderRow).join('') + '</div>' +
+    '<div class="lane-block" style="margin-top:8px"><div class="lane-header teal"><div class="lane-title teal">🎓 Ruta IA Platzi — Aprendizaje continuo</div>' + addBtn('platzi') + '</div>' + platzi.map(renderRow).join('') + '</div>' +
+    '<div class="lane-block" style="margin-top:8px"><div class="lane-header rose"><div class="lane-title rose">🏆 Cierre compartido — Comité de Innovación</div>' + addBtn('shared_close') + '</div>' + close.map(renderRow).join('') + '</div>';
 
   updateProgress();
 }
 
 function toggleDone(id) {
-  var s=stages.find(function(x){return x.id===id;});
-  if(s){s.done=!s.done;saveDone();render();}
+  var s = stages.find(function(x){ return x.id===id; });
+  if (s) { s.done = !s.done; saveAll(); render(); }
 }
 
-var editingId=null, isAdding=false;
-function openModal(){document.getElementById('modal').style.display='flex';}
-function closeModal(){document.getElementById('modal').style.display='none';editingId=null;isAdding=false;}
-function handleOverlayClick(e){if(e.target===document.getElementById('modal'))closeModal();}
+var editingId = null, isAdding = false;
+function openModal() { document.getElementById('modal').style.display='flex'; }
+function closeModal() { document.getElementById('modal').style.display='none'; editingId=null; isAdding=false; }
+function handleOverlayClick(e) { if (e.target===document.getElementById('modal')) closeModal(); }
 
-function openEdit(id){
-  editingId=id;isAdding=false;
-  var s=stages.find(function(x){return x.id===id;});
-  document.getElementById('modal-title').textContent='Editar etapa';
-  document.getElementById('m-name').value=s.name;
-  document.getElementById('m-start').value=s.start;
-  document.getElementById('m-end').value=s.end;
-  document.getElementById('m-milestone').checked=s.milestone;
-  document.getElementById('m-lane-field').style.display='none';
-  document.getElementById('btn-delete').style.display='inline-block';
+function openEdit(id) {
+  editingId=id; isAdding=false;
+  var s = stages.find(function(x){ return x.id===id; });
+  document.getElementById('modal-title').textContent = 'Editar etapa';
+  document.getElementById('m-name').value  = s.name;
+  document.getElementById('m-start').value = s.start;
+  document.getElementById('m-end').value   = s.end;
+  document.getElementById('m-milestone').checked = s.milestone;
+  document.getElementById('m-lane-field').style.display = 'none';
+  document.getElementById('btn-delete').style.display   = 'inline-block';
   openModal();
 }
 
-function openAdd(lane){
-  isAdding=true;editingId=null;
-  document.getElementById('modal-title').textContent='Nueva etapa';
-  document.getElementById('m-name').value='';
-  document.getElementById('m-start').value='2026-06-01';
-  document.getElementById('m-end').value='2026-06-14';
-  document.getElementById('m-milestone').checked=false;
-  document.getElementById('m-lane-field').style.display='none';
-  document.getElementById('btn-delete').style.display='none';
-  document.getElementById('modal').dataset.lane=lane;
+function openAdd(lane) {
+  isAdding=true; editingId=null;
+  document.getElementById('modal-title').textContent = 'Nueva etapa';
+  document.getElementById('m-name').value  = '';
+  document.getElementById('m-start').value = '2026-06-01';
+  document.getElementById('m-end').value   = '2026-06-14';
+  document.getElementById('m-milestone').checked = false;
+  document.getElementById('m-lane-field').style.display = 'none';
+  document.getElementById('btn-delete').style.display   = 'none';
+  document.getElementById('modal').dataset.lane = lane;
   openModal();
 }
 
-function saveModal(){
-  var name=document.getElementById('m-name').value.trim();
-  var start=document.getElementById('m-start').value;
-  var end=document.getElementById('m-end').value;
-  var milestone=document.getElementById('m-milestone').checked;
-  if(!name||!start||!end){alert('Por favor completa todos los campos.');return;}
-  if(isAdding){
-    var rawLane=document.getElementById('modal').dataset.lane;
-    var lane=rawLane==='shared_close'?'shared':rawLane;
-    var newId=rawLane==='shared_close'?'z'+uid():uid();
-    stages.push({id:newId,name:name,lane:lane,start:start,end:end,milestone:milestone,done:false});
-    stages.sort(function(a,b){return parseLocal(a.start)-parseLocal(b.start);});
+function saveModal() {
+  var name      = document.getElementById('m-name').value.trim();
+  var start     = document.getElementById('m-start').value;
+  var end       = document.getElementById('m-end').value;
+  var milestone = document.getElementById('m-milestone').checked;
+  if (!name||!start||!end) { alert('Por favor completa todos los campos.'); return; }
+  if (isAdding) {
+    var rawLane = document.getElementById('modal').dataset.lane;
+    var lane    = rawLane==='shared_close' ? 'shared' : rawLane;
+    var newId   = rawLane==='shared_close' ? 'z'+uid() : uid();
+    stages.push({ id:newId, name:name, lane:lane, start:start, end:end, milestone:milestone, done:false });
+    stages.sort(function(a,b){ return parseLocal(a.start)-parseLocal(b.start); });
   } else {
-    var s=stages.find(function(x){return x.id===editingId;});
-    s.name=name;s.start=start;s.end=end;s.milestone=milestone;
+    var s = stages.find(function(x){ return x.id===editingId; });
+    s.name=name; s.start=start; s.end=end; s.milestone=milestone;
   }
-  saveDone();closeModal();render();
+  saveAll(); closeModal(); render();
 }
 
-function deleteStage(id){
-  if(!confirm('¿Eliminar esta etapa?'))return;
-  stages=stages.filter(function(x){return x.id!==id;});
-  saveDone();closeModal();render();
+function deleteStage(id) {
+  if (!confirm('¿Eliminar esta etapa?')) return;
+  stages = stages.filter(function(x){ return x.id!==id; });
+  saveAll(); closeModal(); render();
 }
-function confirmDelete(){if(editingId)deleteStage(editingId);}
+function confirmDelete() { if (editingId) deleteStage(editingId); }
 
 render();
 </script>
 </body>
 </html>
+
