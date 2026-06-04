@@ -60,7 +60,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 .lane-header.purple { background: var(--purple-light); border: 1px solid var(--purple-mid); }
 .lane-header.teal   { background: var(--teal-light);   border: 1px solid var(--teal-mid); }
 .lane-header.rose   { background: var(--rose-light);   border: 1px solid var(--rose-mid); }
-.lane-title { font-size: 10.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
+.lane-title { font-size: 10.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
 .lane-title.purple { color: var(--purple-dark); }
 .lane-title.teal   { color: var(--teal-dark); }
 .lane-title.rose   { color: var(--rose); }
@@ -117,7 +117,7 @@ footer { text-align: center; font-size: 11px; color: var(--text3); margin-top: 2
     <div class="header-left">
       <div class="eyebrow">ADIPA · Plan de Capacitación</div>
       <h1>Roadmap 2026</h1>
-      <p>Dos rutas paralelas · Inicio: 1 junio · Cierre: septiembre 2026</p>
+      <p id="header-subtitle">Dos rutas paralelas</p>
       <div class="header-badges">
         <span class="badge badge-purple">🤖 Ruta Claude</span>
         <span class="badge badge-teal">🎓 Ruta IA Platzi</span>
@@ -129,12 +129,12 @@ footer { text-align: center; font-size: 11px; color: var(--text3); margin-top: 2
     <div class="stat-card">
       <div class="stat-label">Inicio</div>
       <div class="stat-value" id="stat-inicio-val">—</div>
-      <div class="stat-sub" id="stat-inicio-sub">—</div>
+      <div class="stat-sub"  id="stat-inicio-sub">—</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Cierre</div>
       <div class="stat-value" id="stat-cierre-val">—</div>
-      <div class="stat-sub" id="stat-cierre-sub">—</div>
+      <div class="stat-sub"  id="stat-cierre-sub">—</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Etapas</div>
@@ -204,6 +204,7 @@ var TOTAL_DAYS = 119;
 
 function dayOffset(ds) { return (parseLocal(ds) - BASE) / 86400000; }
 function fmt(ds) { return parseLocal(ds).toLocaleDateString('es-CL', { day:'numeric', month:'short' }); }
+function fmtLong(d) { return d.toLocaleDateString('es-CL', { day:'numeric', month:'long', year:'numeric' }); }
 function pct(ds) { return Math.max(0, Math.min(100, dayOffset(ds)/TOTAL_DAYS*100)); }
 function uid() { return 'id_' + Math.random().toString(36).slice(2,8); }
 
@@ -284,30 +285,38 @@ function renderWeeks() {
   for (var i = 0; i <= TOTAL_DAYS; i += 7) {
     var d = new Date(2026, 5, 1);
     d.setDate(d.getDate() + i);
-    var p = i / TOTAL_DAYS * 100;
-    h += '<div style="position:absolute;left:' + p + '%;transform:translateX(-50%);font-size:9.5px;font-weight:500;color:var(--text3)">' + d.toLocaleDateString('es-CL',{day:'numeric',month:'short'}) + '</div>';
+    h += '<div style="position:absolute;left:' + (i/TOTAL_DAYS*100) + '%;transform:translateX(-50%);font-size:9.5px;font-weight:500;color:var(--text3)">' + d.toLocaleDateString('es-CL',{day:'numeric',month:'short'}) + '</div>';
   }
   return h + '</div>';
 }
 
-function updateProgress() {
+function updateMeta() {
   var total = stages.length;
   var done  = stages.filter(function(s){ return s.done; }).length;
-  var p = total ? Math.round(done/total*100) : 0;
-  document.getElementById('progress-fill').style.width = p + '%';
-  document.getElementById('progress-pct').textContent  = p + '%';
-  document.getElementById('progress-detail').textContent = done + ' de ' + total + ' etapas completadas';
-  document.getElementById('stat-total').textContent = total;
+  var p     = total ? Math.round(done/total*100) : 0;
 
-  // Inicio y cierre dinámicos
+  // Progress
+  document.getElementById('progress-fill').style.width   = p + '%';
+  document.getElementById('progress-pct').textContent    = p + '%';
+  document.getElementById('progress-detail').textContent = done + ' de ' + total + ' etapas completadas';
+  document.getElementById('stat-total').textContent      = total;
+
+  // Fechas dinámicas desde las etapas
   if (total > 0) {
-    var fmtStat = function(d) { return d.toLocaleDateString('es-CL', { day:'numeric', month:'short' }); };
-    var minDate = new Date(Math.min.apply(null, stages.map(function(s){ return parseLocal(s.start); })));
-    var maxDate = new Date(Math.max.apply(null, stages.map(function(s){ return parseLocal(s.end); })));
+    var allStarts = stages.map(function(s){ return parseLocal(s.start).getTime(); });
+    var allEnds   = stages.map(function(s){ return parseLocal(s.end).getTime(); });
+    var minDate   = new Date(Math.min.apply(null, allStarts));
+    var maxDate   = new Date(Math.max.apply(null, allEnds));
+    var fmtStat   = function(d){ return d.toLocaleDateString('es-CL',{day:'numeric',month:'short'}); };
+
     document.getElementById('stat-inicio-val').textContent = fmtStat(minDate);
     document.getElementById('stat-inicio-sub').textContent = minDate.getFullYear();
     document.getElementById('stat-cierre-val').textContent = fmtStat(maxDate);
     document.getElementById('stat-cierre-sub').textContent = maxDate.getFullYear();
+
+    // Subtítulo del header también dinámico
+    document.getElementById('header-subtitle').textContent =
+      'Dos rutas paralelas · Inicio: ' + fmtStat(minDate) + ' · Cierre: ' + fmtStat(maxDate) + ' ' + maxDate.getFullYear();
   }
 }
 
@@ -322,7 +331,7 @@ function render() {
     '<div class="lane-block" style="margin-top:8px"><div class="lane-header purple"><div class="lane-title purple">🤖 Ruta Claude — Certificación</div>' + addBtn('claude') + '</div>' + claude.map(renderRow).join('') + '</div>' +
     '<div class="lane-block" style="margin-top:8px"><div class="lane-header teal"><div class="lane-title teal">🎓 Ruta IA Platzi — Aprendizaje continuo</div>' + addBtn('platzi') + '</div>' + platzi.map(renderRow).join('') + '</div>' +
     '<div class="lane-block" style="margin-top:8px"><div class="lane-header rose"><div class="lane-title rose">🏆 Cierre compartido — Comité de Innovación</div>' + addBtn('shared_close') + '</div>' + close.map(renderRow).join('') + '</div>';
-  updateProgress();
+  updateMeta();
 }
 
 function toggleDone(id) {
