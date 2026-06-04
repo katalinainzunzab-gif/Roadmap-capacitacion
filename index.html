@@ -33,10 +33,17 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 .badge-teal   { background: var(--teal-light);   color: var(--teal-dark);   border-color: var(--teal-mid); }
 .badge-rose   { background: var(--rose-light);   color: var(--rose);        border-color: var(--rose-mid); }
 .meta-row { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-.stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; flex: 1; min-width: 140px; box-shadow: var(--shadow); }
+/* Stat cards editables */
+.stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; flex: 1; min-width: 140px; box-shadow: var(--shadow); cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; position: relative; }
+.stat-card:hover { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(99,102,241,0.08); }
+.stat-card .edit-hint { position: absolute; top: 8px; right: 8px; font-size: 9px; color: var(--text3); opacity: 0; transition: opacity 0.15s; }
+.stat-card:hover .edit-hint { opacity: 1; }
+.stat-card-static { cursor: default; }
+.stat-card-static:hover { border-color: var(--border); box-shadow: var(--shadow); }
 .stat-label { font-size: 11px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
 .stat-value { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
 .stat-sub { font-size: 11px; color: var(--text2); margin-top: 2px; }
+.stat-input { display: none; width: 100%; font-size: 13px; padding: 4px 6px; border-radius: 6px; border: 1px solid var(--purple); background: var(--purple-light); color: var(--purple-dark); font-family: 'Inter', sans-serif; margin-top: 4px; }
 .progress-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; flex: 3; min-width: 240px; box-shadow: var(--shadow); }
 .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .progress-title { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.06em; }
@@ -126,17 +133,23 @@ footer { text-align: center; font-size: 11px; color: var(--text3); margin-top: 2
     </div>
   </div>
   <div class="meta-row">
-    <div class="stat-card">
+    <!-- Inicio: editable con clic -->
+    <div class="stat-card" id="card-inicio" onclick="editStatCard('inicio')">
+      <span class="edit-hint">✏️ editar</span>
       <div class="stat-label">Inicio</div>
       <div class="stat-value" id="stat-inicio-val">—</div>
       <div class="stat-sub"  id="stat-inicio-sub">—</div>
+      <input type="date" class="stat-input" id="input-inicio" onchange="saveStatCard('inicio')" onblur="cancelStatCard('inicio')">
     </div>
-    <div class="stat-card">
+    <!-- Cierre: editable con clic -->
+    <div class="stat-card" id="card-cierre" onclick="editStatCard('cierre')">
+      <span class="edit-hint">✏️ editar</span>
       <div class="stat-label">Cierre</div>
       <div class="stat-value" id="stat-cierre-val">—</div>
       <div class="stat-sub"  id="stat-cierre-sub">—</div>
+      <input type="date" class="stat-input" id="input-cierre" onchange="saveStatCard('cierre')" onblur="cancelStatCard('cierre')">
     </div>
-    <div class="stat-card">
+    <div class="stat-card stat-card-static">
       <div class="stat-label">Etapas</div>
       <div class="stat-value" id="stat-total">—</div>
       <div class="stat-sub">en 2 rutas</div>
@@ -159,7 +172,7 @@ footer { text-align: center; font-size: 11px; color: var(--text3); margin-top: 2
         <div class="legend-item"><div class="legend-diamond" style="background:var(--amber)"></div> Hito</div>
         <div class="legend-item"><div class="legend-check" style="background:var(--green)">✓</div> Completado</div>
       </div>
-      <div class="tip">✓ completar · clic en barra editar · ＋ agregar · ✕ eliminar</div>
+      <div class="tip">✓ completar · clic en barra editar · ＋ agregar · ✕ eliminar · clic en Inicio/Cierre para editar</div>
     </div>
     <div class="gantt"><div class="gantt-inner" id="gantt"></div></div>
   </div>
@@ -199,9 +212,12 @@ function parseLocal(ds) {
   var p = ds.split('-').map(Number);
   return new Date(p[0], p[1]-1, p[2]);
 }
+function toISO(d) {
+  var m = d.getMonth()+1, day = d.getDate();
+  return d.getFullYear() + '-' + (m<10?'0'+m:m) + '-' + (day<10?'0'+day:day);
+}
 var BASE = new Date(2026, 5, 1);
 var TOTAL_DAYS = 119;
-
 function dayOffset(ds) { return (parseLocal(ds) - BASE) / 86400000; }
 function fmt(ds) { return parseLocal(ds).toLocaleDateString('es-CL', { day:'numeric', month:'short' }); }
 function pct(ds) { return Math.max(0, Math.min(100, dayOffset(ds)/TOTAL_DAYS*100)); }
@@ -227,7 +243,9 @@ var DEFAULT_STAGES = [
   { id:'z2',  lane:'shared', start:'2026-09-10', end:'2026-09-10', milestone:true,  done:false, name:'Premiación Comité de Innovación' },
 ];
 
-var LS_KEY = 'roadmap_stages_v2';
+var LS_KEY    = 'roadmap_stages_v2';
+var LS_META   = 'roadmap_meta_v2';
+
 function saveAll() {
   try { localStorage.setItem(LS_KEY, JSON.stringify(stages)); } catch(e) {}
 }
@@ -239,8 +257,73 @@ function loadAll() {
   return DEFAULT_STAGES.map(function(s){ return Object.assign({}, s); });
 }
 
-var stages = loadAll();
+// Fechas de inicio/cierre del programa (editables por el usuario)
+var programMeta = { inicio: '2026-06-01', cierre: '2026-09-10' };
+function saveMeta() {
+  try { localStorage.setItem(LS_META, JSON.stringify(programMeta)); } catch(e) {}
+}
+function loadMeta() {
+  try {
+    var m = JSON.parse(localStorage.getItem(LS_META));
+    if (m && m.inicio && m.cierre) { programMeta = m; }
+  } catch(e) {}
+}
 
+var stages = loadAll();
+loadMeta();
+
+// ── Stat cards editables ────────────────────────────────────────────────────
+function editStatCard(type) {
+  var inp = document.getElementById('input-' + type);
+  var val = document.getElementById('stat-' + type + '-val');
+  var sub = document.getElementById('stat-' + type + '-sub');
+  inp.value = programMeta[type];
+  inp.style.display = 'block';
+  val.style.display = 'none';
+  sub.style.display = 'none';
+  setTimeout(function(){ inp.focus(); inp.showPicker && inp.showPicker(); }, 50);
+}
+function saveStatCard(type) {
+  var inp = document.getElementById('input-' + type);
+  if (!inp.value) return;
+  programMeta[type] = inp.value;
+  saveMeta();
+  hideStatInput(type);
+  updateMeta();
+}
+function cancelStatCard(type) {
+  setTimeout(function(){ hideStatInput(type); }, 200);
+}
+function hideStatInput(type) {
+  var inp = document.getElementById('input-' + type);
+  var val = document.getElementById('stat-' + type + '-val');
+  var sub = document.getElementById('stat-' + type + '-sub');
+  inp.style.display = 'none';
+  val.style.display = '';
+  sub.style.display = '';
+}
+
+function updateMeta() {
+  var total = stages.length;
+  var done  = stages.filter(function(s){ return s.done; }).length;
+  var p     = total ? Math.round(done/total*100) : 0;
+  document.getElementById('progress-fill').style.width   = p + '%';
+  document.getElementById('progress-pct').textContent    = p + '%';
+  document.getElementById('progress-detail').textContent = done + ' de ' + total + ' etapas completadas';
+  document.getElementById('stat-total').textContent      = total;
+
+  var fmtS = function(ds){ return parseLocal(ds).toLocaleDateString('es-CL',{day:'numeric',month:'short'}); };
+  var yrS  = function(ds){ return parseLocal(ds).getFullYear(); };
+
+  document.getElementById('stat-inicio-val').textContent = fmtS(programMeta.inicio);
+  document.getElementById('stat-inicio-sub').textContent = yrS(programMeta.inicio);
+  document.getElementById('stat-cierre-val').textContent = fmtS(programMeta.cierre);
+  document.getElementById('stat-cierre-sub').textContent = yrS(programMeta.cierre);
+  document.getElementById('header-subtitle').textContent =
+    'Dos rutas paralelas · Inicio: ' + fmtS(programMeta.inicio) + ' · Cierre: ' + fmtS(programMeta.cierre) + ' ' + yrS(programMeta.cierre);
+}
+
+// ── Gantt ───────────────────────────────────────────────────────────────────
 function gridLines() {
   var h = '';
   for (var i = 0; i <= TOTAL_DAYS; i += 7)
@@ -284,30 +367,6 @@ function renderWeeks() {
   }
   return h + '</div>';
 }
-
-function updateMeta() {
-  var total = stages.length;
-  var done  = stages.filter(function(s){ return s.done; }).length;
-  var p     = total ? Math.round(done/total*100) : 0;
-  document.getElementById('progress-fill').style.width   = p + '%';
-  document.getElementById('progress-pct').textContent    = p + '%';
-  document.getElementById('progress-detail').textContent = done + ' de ' + total + ' etapas completadas';
-  document.getElementById('stat-total').textContent      = total;
-  if (total > 0) {
-    var minTs = Math.min.apply(null, stages.map(function(s){ return parseLocal(s.start).getTime(); }));
-    var maxTs = Math.max.apply(null, stages.map(function(s){ return parseLocal(s.end).getTime(); }));
-    var minD  = new Date(minTs);
-    var maxD  = new Date(maxTs);
-    var fmtS  = function(d){ return d.toLocaleDateString('es-CL',{day:'numeric',month:'short'}); };
-    document.getElementById('stat-inicio-val').textContent  = fmtS(minD);
-    document.getElementById('stat-inicio-sub').textContent  = minD.getFullYear();
-    document.getElementById('stat-cierre-val').textContent  = fmtS(maxD);
-    document.getElementById('stat-cierre-sub').textContent  = maxD.getFullYear();
-    document.getElementById('header-subtitle').textContent  =
-      'Dos rutas paralelas · Inicio: ' + fmtS(minD) + ' · Cierre: ' + fmtS(maxD) + ' ' + maxD.getFullYear();
-  }
-}
-
 function render() {
   var comm   = stages.filter(function(s){ return s.lane==='shared' && !s.id.startsWith('z'); });
   var claude = stages.filter(function(s){ return s.lane==='claude'; });
@@ -322,16 +381,15 @@ function render() {
   updateMeta();
 }
 
+// ── Interacciones ───────────────────────────────────────────────────────────
 function toggleDone(id) {
   var s = stages.find(function(x){ return x.id===id; });
   if (s) { s.done = !s.done; saveAll(); render(); }
 }
-
 var editingId = null, isAdding = false;
 function openModal() { document.getElementById('modal').style.display='flex'; }
 function closeModal() { document.getElementById('modal').style.display='none'; editingId=null; isAdding=false; }
 function handleOverlayClick(e) { if (e.target===document.getElementById('modal')) closeModal(); }
-
 function openEdit(id) {
   editingId=id; isAdding=false;
   var s = stages.find(function(x){ return x.id===id; });
