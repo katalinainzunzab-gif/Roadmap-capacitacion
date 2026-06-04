@@ -96,7 +96,7 @@ footer { text-align: center; font-size: 11px; color: var(--text3); margin-top: 2
 <div class="page">
   <header>
     <h1>Roadmap de capacitación 2026</h1>
-    <p>Dos rutas paralelas · Inicio: 01 julio · Cierre compartido: octubre</p>
+    <p>Dos rutas paralelas · Inicio: 01 junio · Cierre compartido: septiembre</p>
     <div class="badges">
       <span class="badge badge-purple">Ruta Claude — Certificación</span>
       <span class="badge badge-teal">Ruta IA Platzi</span>
@@ -157,130 +157,109 @@ function parseLocal(ds) {
   const [y, m, d] = ds.split('-').map(Number);
   return new Date(y, m - 1, d);
 }
-const BASE = new Date(2025, 6, 1); // 1 julio local
-const TOTAL_DAYS = 119; // ~17 semanas: 1 jul → 27 oct
+const BASE = new Date(2026, 5, 1); // 1 junio 2026
+const TOTAL_DAYS = 119; // ~17 semanas: 1 jun → 26 sep 2026
 
 function dayOffset(ds) { return (parseLocal(ds) - BASE) / 86400000; }
 function fmt(ds) { return parseLocal(ds).toLocaleDateString('es-CL', { day: 'numeric', month: 'short' }); }
 function pct(ds) { return Math.max(0, Math.min(100, (dayOffset(ds) / TOTAL_DAYS) * 100)); }
 function uid() { return 'id_' + Math.random().toString(36).slice(2, 8); }
 
-// ── Etapas por defecto ──────────────────────────────────────────────────────
 const DEFAULT_STAGES = [
-  // Comunicaciones transversales (teasers antes del inicio)
-  { id:'t1', lane:'shared',  start:'2025-06-23', end:'2025-06-27', milestone:true,  done:false, name:'Teaser 1: anuncio de capacitaciones' },
-  { id:'t2', lane:'shared',  start:'2025-06-30', end:'2025-07-01', milestone:true,  done:false, name:'Teaser 2: lanzamiento oficial' },
-
-  // Ruta Claude
-  { id:'c1', lane:'claude',  start:'2025-07-01', end:'2025-07-18', milestone:false, done:false, name:'Armar temario de cursos y/o videos' },
-  { id:'c2', lane:'claude',  start:'2025-07-19', end:'2025-07-28', milestone:false, done:false, name:'Subir contenidos a Aula Virtual' },
-  { id:'c3', lane:'claude',  start:'2025-07-29', end:'2025-08-08', milestone:false, done:false, name:'Confeccionar evaluación' },
-  { id:'c4', lane:'claude',  start:'2025-08-11', end:'2025-08-29', milestone:false, done:false, name:'Realizar evaluación' },
-  { id:'cm1',lane:'claude',  start:'2025-08-29', end:'2025-08-29', milestone:true,  done:false, name:'Cierre de evaluaciones' },
-  { id:'c5', lane:'claude',  start:'2025-09-01', end:'2025-09-15', milestone:false, done:false, name:'Levantar aprobados y formulario de acceso' },
-  { id:'c6', lane:'claude',  start:'2025-09-16', end:'2025-09-26', milestone:false, done:false, name:'Asignación de accesos' },
-  { id:'cm2',lane:'claude',  start:'2025-09-26', end:'2025-09-26', milestone:true,  done:false, name:'Accesos asignados' },
-
-  // Ruta IA Platzi
-  { id:'p1', lane:'platzi',  start:'2025-07-01', end:'2025-07-11', milestone:false, done:false, name:'Reunión con líderes: levantamiento de necesidades' },
-  { id:'p2', lane:'platzi',  start:'2025-07-14', end:'2025-07-28', milestone:false, done:false, name:'Armar rutas en Platzi y asignar personas' },
-  { id:'pm1',lane:'platzi',  start:'2025-07-28', end:'2025-07-28', milestone:true,  done:false, name:'Rutas asignadas' },
-  { id:'p3', lane:'platzi',  start:'2025-07-29', end:'2025-09-26', milestone:false, done:false, name:'Análisis: cursos y rutas completadas' },
-  { id:'pm2',lane:'platzi',  start:'2025-09-26', end:'2025-09-26', milestone:true,  done:false, name:'Punto de control: avances finales' },
-
-  // Cierre compartido
-  { id:'z1', lane:'shared',  start:'2025-09-29', end:'2025-10-10', milestone:false, done:false, name:'Reunión de cierre: presentación de proyectos destacados' },
-  { id:'z2', lane:'shared',  start:'2025-10-10', end:'2025-10-10', milestone:true,  done:false, name:'Premiación Comité de Innovación' },
+  { id:'t1', lane:'shared',  start:'2026-05-23', end:'2026-05-27', milestone:true,  done:false, name:'Teaser 1: anuncio de capacitaciones' },
+  { id:'t2', lane:'shared',  start:'2026-05-30', end:'2026-06-01', milestone:true,  done:false, name:'Teaser 2: lanzamiento oficial' },
+  { id:'c1', lane:'claude',  start:'2026-06-01', end:'2026-06-18', milestone:false, done:false, name:'Armar temario de cursos y/o videos' },
+  { id:'c2', lane:'claude',  start:'2026-06-19', end:'2026-06-28', milestone:false, done:false, name:'Subir contenidos a Aula Virtual' },
+  { id:'c3', lane:'claude',  start:'2026-06-29', end:'2026-07-08', milestone:false, done:false, name:'Confeccionar evaluación' },
+  { id:'c4', lane:'claude',  start:'2026-07-11', end:'2026-07-29', milestone:false, done:false, name:'Realizar evaluación' },
+  { id:'cm1',lane:'claude',  start:'2026-07-29', end:'2026-07-29', milestone:true,  done:false, name:'Cierre de evaluaciones' },
+  { id:'c5', lane:'claude',  start:'2026-08-01', end:'2026-08-15', milestone:false, done:false, name:'Levantar aprobados y formulario de acceso' },
+  { id:'c6', lane:'claude',  start:'2026-08-16', end:'2026-08-26', milestone:false, done:false, name:'Asignación de accesos' },
+  { id:'cm2',lane:'claude',  start:'2026-08-26', end:'2026-08-26', milestone:true,  done:false, name:'Accesos asignados' },
+  { id:'p1', lane:'platzi',  start:'2026-06-01', end:'2026-06-11', milestone:false, done:false, name:'Reunión con líderes: levantamiento de necesidades' },
+  { id:'p2', lane:'platzi',  start:'2026-06-14', end:'2026-06-28', milestone:false, done:false, name:'Armar rutas en Platzi y asignar personas' },
+  { id:'pm1',lane:'platzi',  start:'2026-06-28', end:'2026-06-28', milestone:true,  done:false, name:'Rutas asignadas' },
+  { id:'p3', lane:'platzi',  start:'2026-06-29', end:'2026-08-26', milestone:false, done:false, name:'Análisis: cursos y rutas completadas' },
+  { id:'pm2',lane:'platzi',  start:'2026-08-26', end:'2026-08-26', milestone:true,  done:false, name:'Punto de control: avances finales' },
+  { id:'z1', lane:'shared',  start:'2026-08-29', end:'2026-09-10', milestone:false, done:false, name:'Reunión de cierre: presentación de proyectos destacados' },
+  { id:'z2', lane:'shared',  start:'2026-09-10', end:'2026-09-10', milestone:true,  done:false, name:'Premiación Comité de Innovación' },
 ];
 
-// ── Persistencia: solo estado done en localStorage ───────────────────────────
 const LS_KEY = 'roadmap_done_v3';
-
 function saveDone() {
-  try {
-    const state = {};
-    stages.forEach(s => { state[s.id] = s.done; });
-    localStorage.setItem(LS_KEY, JSON.stringify(state));
-  } catch(e) {}
+  try { const s={}; stages.forEach(x=>{s[x.id]=x.done;}); localStorage.setItem(LS_KEY,JSON.stringify(s)); } catch(e) {}
 }
 function loadDone() {
-  try {
-    const state = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
-    stages.forEach(s => { if (s.id in state) s.done = state[s.id]; });
-  } catch(e) {}
+  try { const s=JSON.parse(localStorage.getItem(LS_KEY)||'{}'); stages.forEach(x=>{if(x.id in s)x.done=s[x.id];}); } catch(e) {}
 }
 
 let stages = DEFAULT_STAGES.map(s => ({ ...s }));
 loadDone();
 
-// ── Helpers de render ────────────────────────────────────────────────────────
 function gridLines() {
   let h = '';
   for (let i = 0; i <= TOTAL_DAYS; i += 7)
-    h += `<div class="grid-line" style="left:${(i/TOTAL_DAYS)*100}%"></div>`;
+    h += '<div class="grid-line" style="left:' + (i/TOTAL_DAYS*100) + '%"></div>';
   return h;
 }
 
 function checkBtn(id, done) {
-  return `<button class="btn-check${done?' checked':''}" onclick="toggleDone('${id}')" title="${done?'Marcar pendiente':'Marcar completado'}">${done?'✓':''}</button>`;
+  return '<button class="btn-check' + (done?' checked':'') + '" onclick="toggleDone(\'' + id + '\')" title="' + (done?'Marcar pendiente':'Marcar completado') + '">' + (done?'✓':'') + '</button>';
 }
 
 function renderRow(s) {
-  const color  = s.lane==='claude' ? 'purple' : s.lane==='platzi' ? 'teal' : 'shared';
-  const mColor = s.lane==='shared' ? '#D4537E' : s.lane==='claude' ? '#534AB7' : '#0F6E56';
-  const l = pct(s.start), r = pct(s.end), w = Math.max(r-l, 0.8);
-  const isShared = s.lane==='shared';
-  const del = `<button class="btn-del" onclick="deleteStage('${s.id}')" title="Eliminar">✕</button>`;
+  var color  = s.lane==='claude' ? 'purple' : s.lane==='platzi' ? 'teal' : 'shared';
+  var mColor = s.lane==='shared' ? '#D4537E' : s.lane==='claude' ? '#534AB7' : '#0F6E56';
+  var l = pct(s.start), r = pct(s.end), w = Math.max(r-l, 0.8);
+  var isShared = s.lane==='shared';
+  var del = '<button class="btn-del" onclick="deleteStage(\'' + s.id + '\')" title="Eliminar">✕</button>';
 
   if (s.milestone) {
-    return `<div class="milestone-row${s.done?' done':''}" style="display:flex;align-items:center;margin-bottom:5px;padding:2px 0${isShared?';background:var(--pink-light);border-radius:6px;border:0.5px solid rgba(212,83,126,0.2)':''}">
-      <div class="row-label">${checkBtn(s.id,s.done)}<div class="row-label-text"><span style="font-size:10px;color:var(--text2)">🚩 ${s.name}</span></div>${del}</div>
-      <div class="track" style="height:22px">${gridLines()}
-        <div class="diamond" style="left:${l}%;background:${mColor}" onclick="openEdit('${s.id}')" title="${s.name}"></div>
-        <div class="diamond-label" style="left:${l}%">${fmt(s.start)}</div>
-      </div></div>`;
+    return '<div class="milestone-row' + (s.done?' done':'') + '" style="display:flex;align-items:center;margin-bottom:5px;padding:2px 0' + (isShared?';background:var(--pink-light);border-radius:6px;border:0.5px solid rgba(212,83,126,0.2)':'') + '">'
+      + '<div class="row-label">' + checkBtn(s.id,s.done) + '<div class="row-label-text"><span style="font-size:10px;color:var(--text2)">🚩 ' + s.name + '</span></div>' + del + '</div>'
+      + '<div class="track" style="height:22px">' + gridLines()
+      + '<div class="diamond" style="left:' + l + '%;background:' + mColor + '" onclick="openEdit(\'' + s.id + '\')" title="' + s.name + '"></div>'
+      + '<div class="diamond-label" style="left:' + l + '%">' + fmt(s.start) + '</div>'
+      + '</div></div>';
   }
 
-  const label = w > 10 ? s.name : '';
-  return `<div class="${isShared?'shared-row-wrap':'row'}${s.done?' done':''}">
-    <div class="row-label">${checkBtn(s.id,s.done)}
-      <div class="row-label-text"><div>${s.name}</div><div class="row-sub">${fmt(s.start)} → ${fmt(s.end)}</div></div>
-      ${del}
-    </div>
-    <div class="track">${gridLines()}
-      <div class="bar ${color}" style="left:${l}%;width:${w}%" onclick="openEdit('${s.id}')" title="${s.name}">
-        <span style="overflow:hidden;text-overflow:ellipsis">${label}</span>
-      </div>
-    </div></div>`;
+  var label = w > 10 ? s.name : '';
+  return '<div class="' + (isShared?'shared-row-wrap':'row') + (s.done?' done':'') + '">'
+    + '<div class="row-label">' + checkBtn(s.id,s.done)
+    + '<div class="row-label-text"><div>' + s.name + '</div><div class="row-sub">' + fmt(s.start) + ' → ' + fmt(s.end) + '</div></div>'
+    + del + '</div>'
+    + '<div class="track">' + gridLines()
+    + '<div class="bar ' + color + '" style="left:' + l + '%;width:' + w + '%" onclick="openEdit(\'' + s.id + '\')" title="' + s.name + '">'
+    + '<span style="overflow:hidden;text-overflow:ellipsis">' + label + '</span></div></div></div>';
 }
 
 function addBtn(lane) {
-  return `<button class="btn-add" onclick="openAdd('${lane}')">＋ Agregar etapa</button>`;
+  return '<button class="btn-add" onclick="openAdd(\'' + lane + '\')">＋ Agregar etapa</button>';
 }
 
 function renderWeeks() {
-  let h = '<div class="week-row">';
-  for (let i = 0; i <= TOTAL_DAYS; i += 7) {
-    const d = new Date(2025, 6, 1);
+  var h = '<div class="week-row">';
+  for (var i = 0; i <= TOTAL_DAYS; i += 7) {
+    var d = new Date(2026, 5, 1);
     d.setDate(d.getDate() + i);
-    const p = (i / TOTAL_DAYS) * 100;
-    h += `<div style="position:absolute;left:${p}%;transform:translateX(-50%);font-size:9px;color:var(--text3)">${d.toLocaleDateString('es-CL',{day:'numeric',month:'short'})}</div>`;
+    var p = (i / TOTAL_DAYS) * 100;
+    h += '<div style="position:absolute;left:' + p + '%;transform:translateX(-50%);font-size:9px;color:var(--text3)">' + d.toLocaleDateString('es-CL',{day:'numeric',month:'short'}) + '</div>';
   }
   return h + '</div>';
 }
 
 function updateProgress() {
-  const total = stages.length, done = stages.filter(s=>s.done).length;
-  const p = total ? Math.round((done/total)*100) : 0;
+  var total = stages.length, done = stages.filter(function(s){return s.done;}).length;
+  var p = total ? Math.round((done/total)*100) : 0;
   document.getElementById('progress-fill').style.width = p + '%';
-  document.getElementById('progress-text').textContent = `${done} / ${total} etapas completadas (${p}%)`;
+  document.getElementById('progress-text').textContent = done + ' / ' + total + ' etapas completadas (' + p + '%)';
 }
 
 function render() {
-  const comm   = stages.filter(s => s.lane==='shared' && !s.id.startsWith('z'));
-  const claude = stages.filter(s => s.lane==='claude');
-  const platzi = stages.filter(s => s.lane==='platzi');
-  const close  = stages.filter(s => s.lane==='shared' && s.id.startsWith('z'));
+  var comm   = stages.filter(function(s){ return s.lane==='shared' && !s.id.startsWith('z'); });
+  var claude = stages.filter(function(s){ return s.lane==='claude'; });
+  var platzi = stages.filter(function(s){ return s.lane==='platzi'; });
+  var close  = stages.filter(function(s){ return s.lane==='shared' && s.id.startsWith('z'); });
   document.getElementById('gantt').innerHTML =
     renderWeeks() +
     '<div class="lane-header"><div class="lane-title pink">📣 Comunicaciones transversales</div>' + addBtn('shared') + '</div>' +
@@ -298,18 +277,18 @@ function render() {
 }
 
 function toggleDone(id) {
-  const s = stages.find(x => x.id===id);
+  var s = stages.find(function(x){ return x.id===id; });
   if (s) { s.done = !s.done; saveDone(); render(); }
 }
 
-let editingId = null, isAdding = false;
+var editingId = null, isAdding = false;
 function openModal() { document.getElementById('modal').style.display='flex'; }
 function closeModal() { document.getElementById('modal').style.display='none'; editingId=null; isAdding=false; }
 function handleOverlayClick(e) { if (e.target===document.getElementById('modal')) closeModal(); }
 
 function openEdit(id) {
   editingId=id; isAdding=false;
-  const s = stages.find(x=>x.id===id);
+  var s = stages.find(function(x){ return x.id===id; });
   document.getElementById('modal-title').textContent = 'Editar etapa';
   document.getElementById('m-name').value  = s.name;
   document.getElementById('m-start').value = s.start;
@@ -324,8 +303,8 @@ function openAdd(lane) {
   isAdding=true; editingId=null;
   document.getElementById('modal-title').textContent = 'Nueva etapa';
   document.getElementById('m-name').value  = '';
-  document.getElementById('m-start').value = '2025-07-01';
-  document.getElementById('m-end').value   = '2025-07-14';
+  document.getElementById('m-start').value = '2026-06-01';
+  document.getElementById('m-end').value   = '2026-06-14';
   document.getElementById('m-milestone').checked = false;
   document.getElementById('m-lane-field').style.display = 'none';
   document.getElementById('btn-delete').style.display   = 'none';
