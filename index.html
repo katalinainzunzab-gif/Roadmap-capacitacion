@@ -204,7 +204,6 @@ var TOTAL_DAYS = 119;
 
 function dayOffset(ds) { return (parseLocal(ds) - BASE) / 86400000; }
 function fmt(ds) { return parseLocal(ds).toLocaleDateString('es-CL', { day:'numeric', month:'short' }); }
-function fmtLong(d) { return d.toLocaleDateString('es-CL', { day:'numeric', month:'long', year:'numeric' }); }
 function pct(ds) { return Math.max(0, Math.min(100, dayOffset(ds)/TOTAL_DAYS*100)); }
 function uid() { return 'id_' + Math.random().toString(36).slice(2,8); }
 
@@ -228,7 +227,7 @@ var DEFAULT_STAGES = [
   { id:'z2',  lane:'shared', start:'2026-09-10', end:'2026-09-10', milestone:true,  done:false, name:'Premiación Comité de Innovación' },
 ];
 
-var LS_KEY = 'roadmap_stages_v1';
+var LS_KEY = 'roadmap_stages_v2';
 function saveAll() {
   try { localStorage.setItem(LS_KEY, JSON.stringify(stages)); } catch(e) {}
 }
@@ -248,11 +247,9 @@ function gridLines() {
     h += '<div class="grid-line" style="left:' + (i/TOTAL_DAYS*100) + '%"></div>';
   return h;
 }
-
 function checkBtn(id, done) {
   return '<button class="btn-check' + (done?' checked':'') + '" onclick="toggleDone(\'' + id + '\')" title="' + (done?'Desmarcar':'Completar') + '">' + (done?'✓':'') + '</button>';
 }
-
 function renderRow(s) {
   var color  = s.lane==='claude' ? 'purple' : s.lane==='platzi' ? 'teal' : 'shared';
   var mColor = s.lane==='shared' ? 'var(--rose)' : s.lane==='claude' ? 'var(--purple)' : 'var(--teal)';
@@ -275,11 +272,9 @@ function renderRow(s) {
     + '<div class="bar ' + color + '" style="left:' + l + '%;width:' + w + '%" onclick="openEdit(\'' + s.id + '\')" title="' + s.name + '">'
     + '<span style="overflow:hidden;text-overflow:ellipsis">' + label + '</span></div></div></div>';
 }
-
 function addBtn(lane) {
   return '<button class="btn-add" onclick="openAdd(\'' + lane + '\')">＋ Agregar</button>';
 }
-
 function renderWeeks() {
   var h = '<div class="week-row">';
   for (var i = 0; i <= TOTAL_DAYS; i += 7) {
@@ -294,29 +289,22 @@ function updateMeta() {
   var total = stages.length;
   var done  = stages.filter(function(s){ return s.done; }).length;
   var p     = total ? Math.round(done/total*100) : 0;
-
-  // Progress
   document.getElementById('progress-fill').style.width   = p + '%';
   document.getElementById('progress-pct').textContent    = p + '%';
   document.getElementById('progress-detail').textContent = done + ' de ' + total + ' etapas completadas';
   document.getElementById('stat-total').textContent      = total;
-
-  // Fechas dinámicas desde las etapas
   if (total > 0) {
-    var allStarts = stages.map(function(s){ return parseLocal(s.start).getTime(); });
-    var allEnds   = stages.map(function(s){ return parseLocal(s.end).getTime(); });
-    var minDate   = new Date(Math.min.apply(null, allStarts));
-    var maxDate   = new Date(Math.max.apply(null, allEnds));
-    var fmtStat   = function(d){ return d.toLocaleDateString('es-CL',{day:'numeric',month:'short'}); };
-
-    document.getElementById('stat-inicio-val').textContent = fmtStat(minDate);
-    document.getElementById('stat-inicio-sub').textContent = minDate.getFullYear();
-    document.getElementById('stat-cierre-val').textContent = fmtStat(maxDate);
-    document.getElementById('stat-cierre-sub').textContent = maxDate.getFullYear();
-
-    // Subtítulo del header también dinámico
-    document.getElementById('header-subtitle').textContent =
-      'Dos rutas paralelas · Inicio: ' + fmtStat(minDate) + ' · Cierre: ' + fmtStat(maxDate) + ' ' + maxDate.getFullYear();
+    var minTs = Math.min.apply(null, stages.map(function(s){ return parseLocal(s.start).getTime(); }));
+    var maxTs = Math.max.apply(null, stages.map(function(s){ return parseLocal(s.end).getTime(); }));
+    var minD  = new Date(minTs);
+    var maxD  = new Date(maxTs);
+    var fmtS  = function(d){ return d.toLocaleDateString('es-CL',{day:'numeric',month:'short'}); };
+    document.getElementById('stat-inicio-val').textContent  = fmtS(minD);
+    document.getElementById('stat-inicio-sub').textContent  = minD.getFullYear();
+    document.getElementById('stat-cierre-val').textContent  = fmtS(maxD);
+    document.getElementById('stat-cierre-sub').textContent  = maxD.getFullYear();
+    document.getElementById('header-subtitle').textContent  =
+      'Dos rutas paralelas · Inicio: ' + fmtS(minD) + ' · Cierre: ' + fmtS(maxD) + ' ' + maxD.getFullYear();
   }
 }
 
@@ -356,7 +344,6 @@ function openEdit(id) {
   document.getElementById('btn-delete').style.display   = 'inline-block';
   openModal();
 }
-
 function openAdd(lane) {
   isAdding=true; editingId=null;
   document.getElementById('modal-title').textContent = 'Nueva etapa';
@@ -369,7 +356,6 @@ function openAdd(lane) {
   document.getElementById('modal').dataset.lane = lane;
   openModal();
 }
-
 function saveModal() {
   var name      = document.getElementById('m-name').value.trim();
   var start     = document.getElementById('m-start').value;
@@ -388,7 +374,6 @@ function saveModal() {
   }
   saveAll(); closeModal(); render();
 }
-
 function deleteStage(id) {
   if (!confirm('¿Eliminar esta etapa?')) return;
   stages = stages.filter(function(x){ return x.id!==id; });
