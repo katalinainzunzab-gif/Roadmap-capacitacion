@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Roadmap Capacitación 2026 · ADIPA</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -362,9 +363,9 @@ function render() {
     renderWeeks() +
     '<div class="lane-block"><div class="lane-header rose"><div class="lane-title rose">📣 Comunicaciones transversales</div>' + addBtn('shared') + '</div>' + comm.map(renderRow).join('') + '</div>' +
     // ── Platzi primero (Etapa 1) ──
-    '<div class="lane-block" style="margin-top:8px"><div class="lane-header teal"><div class="lane-title teal">🎓 Etapa 1 · Ruta IA Platzi</div>' + addBtn('platzi') + '</div>' + platzi.map(renderRow).join('') + '</div>' +
+    '<div class="lane-block" style="margin-top:8px"><div class="lane-header teal"><div class="lane-title teal">🎓 Etapa 1 · Ruta IA Platzi — Aprendizaje continuo</div>' + addBtn('platzi') + '</div>' + platzi.map(renderRow).join('') + '</div>' +
     // ── Claude segundo (Etapa 2) ──
-    '<div class="lane-block" style="margin-top:8px"><div class="lane-header purple"><div class="lane-title purple">🤖 Etapa 2 · Ruta Claude</div>' + addBtn('claude') + '</div>' + claude.map(renderRow).join('') + '</div>' +
+    '<div class="lane-block" style="margin-top:8px"><div class="lane-header purple"><div class="lane-title purple">🤖 Etapa 2 · Ruta Claude — Certificación</div>' + addBtn('claude') + '</div>' + claude.map(renderRow).join('') + '</div>' +
     '<div class="lane-block" style="margin-top:8px"><div class="lane-header rose"><div class="lane-title rose">🏆 Cierre compartido — Comité de Innovación</div>' + addBtn('shared_close') + '</div>' + close.map(renderRow).join('') + '</div>';
   updateMeta();
 }
@@ -426,7 +427,49 @@ function deleteStage(id) {
 }
 function confirmDelete() { if (editingId) deleteStage(editingId); }
 
-render();
+// ═══════════════════════════════════════════════════
+//  SUPABASE — pega tus claves aquí
+// ═══════════════════════════════════════════════════
+var SUPA_URL = 'https://okldculxzqudceoegdgp.supabase.co';
+var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9rbGRjdWx4enF1ZGNlb2VnZGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2NTM3NjgsImV4cCI6MjA5NjIyOTc2OH0.wYwUPqXywzeuZGEOSvgT9JnZOmAcCpqGfVAmcIyJqN8';
+// ═══════════════════════════════════════════════════
+
+if (SUPA_URL !== 'TU_SUPABASE_URL') {
+  var db = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+  // Envolver saveAll y saveMeta para que también guarden en Supabase
+  var _origSaveAll = saveAll;
+  saveAll = function() {
+    _origSaveAll();
+    db.from('roadmap').upsert({ id: 1, stages: stages, meta: programMeta })
+      .then(function(){}).catch(function(){});
+  };
+  var _origSaveMeta = saveMeta;
+  saveMeta = function() {
+    _origSaveMeta();
+    db.from('roadmap').upsert({ id: 1, stages: stages, meta: programMeta })
+      .then(function(){}).catch(function(){});
+  };
+
+  // Cargar desde Supabase al iniciar
+  db.from('roadmap').select('stages,meta').eq('id', 1).single()
+    .then(function(res) {
+      if (!res.error && res.data) {
+        if (res.data.stages && res.data.stages.length > 0) {
+          stages = res.data.stages;
+          localStorage.setItem('roadmap_stages_v2', JSON.stringify(stages));
+        }
+        if (res.data.meta && res.data.meta.inicio) {
+          programMeta = res.data.meta;
+          localStorage.setItem('roadmap_meta_v2', JSON.stringify(programMeta));
+        }
+      }
+      render();
+    })
+    .catch(function() { render(); });
+} else {
+  render(); // Sin Supabase: funciona solo con localStorage
+}
 </script>
 </body>
 </html>
