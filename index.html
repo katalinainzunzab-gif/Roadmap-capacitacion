@@ -33,7 +33,6 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 .badge-teal   { background: var(--teal-light);   color: var(--teal-dark);   border-color: var(--teal-mid); }
 .badge-rose   { background: var(--rose-light);   color: var(--rose);        border-color: var(--rose-mid); }
 .meta-row { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-/* Stat cards editables */
 .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; flex: 1; min-width: 140px; box-shadow: var(--shadow); cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; position: relative; }
 .stat-card:hover { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(99,102,241,0.08); }
 .stat-card .edit-hint { position: absolute; top: 8px; right: 8px; font-size: 9px; color: var(--text3); opacity: 0; transition: opacity 0.15s; }
@@ -126,14 +125,13 @@ footer { text-align: center; font-size: 11px; color: var(--text3); margin-top: 2
       <h1>Roadmap 2026</h1>
       <p id="header-subtitle">Dos rutas paralelas</p>
       <div class="header-badges">
-        <span class="badge badge-purple">🤖 Ruta Claude</span>
-        <span class="badge badge-teal">🎓 Ruta IA Platzi</span>
+        <span class="badge badge-teal">🎓 Etapa 1 · Ruta IA Platzi</span>
+        <span class="badge badge-purple">🤖 Etapa 2 · Ruta Claude</span>
         <span class="badge badge-rose">🏆 Cierre compartido</span>
       </div>
     </div>
   </div>
   <div class="meta-row">
-    <!-- Inicio: editable con clic -->
     <div class="stat-card" id="card-inicio" onclick="editStatCard('inicio')">
       <span class="edit-hint">✏️ editar</span>
       <div class="stat-label">Inicio</div>
@@ -141,7 +139,6 @@ footer { text-align: center; font-size: 11px; color: var(--text3); margin-top: 2
       <div class="stat-sub"  id="stat-inicio-sub">—</div>
       <input type="date" class="stat-input" id="input-inicio" onchange="saveStatCard('inicio')" onblur="cancelStatCard('inicio')">
     </div>
-    <!-- Cierre: editable con clic -->
     <div class="stat-card" id="card-cierre" onclick="editStatCard('cierre')">
       <span class="edit-hint">✏️ editar</span>
       <div class="stat-label">Cierre</div>
@@ -166,8 +163,8 @@ footer { text-align: center; font-size: 11px; color: var(--text3); margin-top: 2
   <div class="card">
     <div class="legend-tip-row">
       <div class="legend">
-        <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div> Ruta Claude</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> Ruta Platzi</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div> Ruta Claude</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--rose)"></div> Compartido</div>
         <div class="legend-item"><div class="legend-diamond" style="background:var(--amber)"></div> Hito</div>
         <div class="legend-item"><div class="legend-check" style="background:var(--green)">✓</div> Completado</div>
@@ -190,8 +187,8 @@ footer { text-align: center; font-size: 11px; color: var(--text3); margin-top: 2
     <div class="field" id="m-lane-field" style="display:none">
       <label>Ruta</label>
       <select id="m-lane">
-        <option value="claude">Ruta Claude</option>
         <option value="platzi">Ruta IA Platzi</option>
+        <option value="claude">Ruta Claude</option>
         <option value="shared">Compartido</option>
       </select>
     </div>
@@ -212,10 +209,6 @@ function parseLocal(ds) {
   var p = ds.split('-').map(Number);
   return new Date(p[0], p[1]-1, p[2]);
 }
-function toISO(d) {
-  var m = d.getMonth()+1, day = d.getDate();
-  return d.getFullYear() + '-' + (m<10?'0'+m:m) + '-' + (day<10?'0'+day:day);
-}
 var BASE = new Date(2026, 5, 1);
 var TOTAL_DAYS = 119;
 function dayOffset(ds) { return (parseLocal(ds) - BASE) / 86400000; }
@@ -226,6 +219,11 @@ function uid() { return 'id_' + Math.random().toString(36).slice(2,8); }
 var DEFAULT_STAGES = [
   { id:'t1',  lane:'shared', start:'2026-05-23', end:'2026-05-27', milestone:true,  done:false, name:'Teaser 1: anuncio de capacitaciones' },
   { id:'t2',  lane:'shared', start:'2026-05-30', end:'2026-06-01', milestone:true,  done:false, name:'Teaser 2: lanzamiento oficial' },
+  { id:'p1',  lane:'platzi', start:'2026-06-01', end:'2026-06-11', milestone:false, done:false, name:'Reunión con líderes: levantamiento de necesidades' },
+  { id:'p2',  lane:'platzi', start:'2026-06-14', end:'2026-06-28', milestone:false, done:false, name:'Armar rutas en Platzi y asignar personas' },
+  { id:'pm1', lane:'platzi', start:'2026-06-28', end:'2026-06-28', milestone:true,  done:false, name:'Rutas asignadas' },
+  { id:'p3',  lane:'platzi', start:'2026-06-29', end:'2026-08-26', milestone:false, done:false, name:'Análisis: cursos y rutas completadas' },
+  { id:'pm2', lane:'platzi', start:'2026-08-26', end:'2026-08-26', milestone:true,  done:false, name:'Punto de control: avances finales' },
   { id:'c1',  lane:'claude', start:'2026-06-01', end:'2026-06-18', milestone:false, done:false, name:'Armar temario de cursos y/o videos' },
   { id:'c2',  lane:'claude', start:'2026-06-19', end:'2026-06-28', milestone:false, done:false, name:'Subir contenidos a Aula Virtual' },
   { id:'c3',  lane:'claude', start:'2026-06-29', end:'2026-07-08', milestone:false, done:false, name:'Confeccionar evaluación' },
@@ -234,17 +232,12 @@ var DEFAULT_STAGES = [
   { id:'c5',  lane:'claude', start:'2026-08-01', end:'2026-08-15', milestone:false, done:false, name:'Levantar aprobados y formulario de acceso' },
   { id:'c6',  lane:'claude', start:'2026-08-16', end:'2026-08-26', milestone:false, done:false, name:'Asignación de accesos' },
   { id:'cm2', lane:'claude', start:'2026-08-26', end:'2026-08-26', milestone:true,  done:false, name:'Accesos asignados' },
-  { id:'p1',  lane:'platzi', start:'2026-06-01', end:'2026-06-11', milestone:false, done:false, name:'Reunión con líderes: levantamiento de necesidades' },
-  { id:'p2',  lane:'platzi', start:'2026-06-14', end:'2026-06-28', milestone:false, done:false, name:'Armar rutas en Platzi y asignar personas' },
-  { id:'pm1', lane:'platzi', start:'2026-06-28', end:'2026-06-28', milestone:true,  done:false, name:'Rutas asignadas' },
-  { id:'p3',  lane:'platzi', start:'2026-06-29', end:'2026-08-26', milestone:false, done:false, name:'Análisis: cursos y rutas completadas' },
-  { id:'pm2', lane:'platzi', start:'2026-08-26', end:'2026-08-26', milestone:true,  done:false, name:'Punto de control: avances finales' },
   { id:'z1',  lane:'shared', start:'2026-08-29', end:'2026-09-10', milestone:false, done:false, name:'Reunión de cierre: proyectos destacados' },
   { id:'z2',  lane:'shared', start:'2026-09-10', end:'2026-09-10', milestone:true,  done:false, name:'Premiación Comité de Innovación' },
 ];
 
-var LS_KEY    = 'roadmap_stages_v2';
-var LS_META   = 'roadmap_meta_v2';
+var LS_KEY  = 'roadmap_stages_v2';
+var LS_META = 'roadmap_meta_v2';
 
 function saveAll() {
   try { localStorage.setItem(LS_KEY, JSON.stringify(stages)); } catch(e) {}
@@ -257,7 +250,6 @@ function loadAll() {
   return DEFAULT_STAGES.map(function(s){ return Object.assign({}, s); });
 }
 
-// Fechas de inicio/cierre del programa (editables por el usuario)
 var programMeta = { inicio: '2026-06-01', cierre: '2026-09-10' };
 function saveMeta() {
   try { localStorage.setItem(LS_META, JSON.stringify(programMeta)); } catch(e) {}
@@ -265,14 +257,13 @@ function saveMeta() {
 function loadMeta() {
   try {
     var m = JSON.parse(localStorage.getItem(LS_META));
-    if (m && m.inicio && m.cierre) { programMeta = m; }
+    if (m && m.inicio && m.cierre) programMeta = m;
   } catch(e) {}
 }
 
 var stages = loadAll();
 loadMeta();
 
-// ── Stat cards editables ────────────────────────────────────────────────────
 function editStatCard(type) {
   var inp = document.getElementById('input-' + type);
   var val = document.getElementById('stat-' + type + '-val');
@@ -295,12 +286,9 @@ function cancelStatCard(type) {
   setTimeout(function(){ hideStatInput(type); }, 200);
 }
 function hideStatInput(type) {
-  var inp = document.getElementById('input-' + type);
-  var val = document.getElementById('stat-' + type + '-val');
-  var sub = document.getElementById('stat-' + type + '-sub');
-  inp.style.display = 'none';
-  val.style.display = '';
-  sub.style.display = '';
+  document.getElementById('input-' + type).style.display = 'none';
+  document.getElementById('stat-' + type + '-val').style.display = '';
+  document.getElementById('stat-' + type + '-sub').style.display = '';
 }
 
 function updateMeta() {
@@ -311,10 +299,8 @@ function updateMeta() {
   document.getElementById('progress-pct').textContent    = p + '%';
   document.getElementById('progress-detail').textContent = done + ' de ' + total + ' etapas completadas';
   document.getElementById('stat-total').textContent      = total;
-
   var fmtS = function(ds){ return parseLocal(ds).toLocaleDateString('es-CL',{day:'numeric',month:'short'}); };
   var yrS  = function(ds){ return parseLocal(ds).getFullYear(); };
-
   document.getElementById('stat-inicio-val').textContent = fmtS(programMeta.inicio);
   document.getElementById('stat-inicio-sub').textContent = yrS(programMeta.inicio);
   document.getElementById('stat-cierre-val').textContent = fmtS(programMeta.cierre);
@@ -323,7 +309,6 @@ function updateMeta() {
     'Dos rutas paralelas · Inicio: ' + fmtS(programMeta.inicio) + ' · Cierre: ' + fmtS(programMeta.cierre) + ' ' + yrS(programMeta.cierre);
 }
 
-// ── Gantt ───────────────────────────────────────────────────────────────────
 function gridLines() {
   var h = '';
   for (var i = 0; i <= TOTAL_DAYS; i += 7)
@@ -367,21 +352,23 @@ function renderWeeks() {
   }
   return h + '</div>';
 }
+
 function render() {
   var comm   = stages.filter(function(s){ return s.lane==='shared' && !s.id.startsWith('z'); });
-  var claude = stages.filter(function(s){ return s.lane==='claude'; });
   var platzi = stages.filter(function(s){ return s.lane==='platzi'; });
+  var claude = stages.filter(function(s){ return s.lane==='claude'; });
   var close  = stages.filter(function(s){ return s.lane==='shared' && s.id.startsWith('z'); });
   document.getElementById('gantt').innerHTML =
     renderWeeks() +
     '<div class="lane-block"><div class="lane-header rose"><div class="lane-title rose">📣 Comunicaciones transversales</div>' + addBtn('shared') + '</div>' + comm.map(renderRow).join('') + '</div>' +
-    '<div class="lane-block" style="margin-top:8px"><div class="lane-header purple"><div class="lane-title purple">🤖 Etapa 1: Ruta Claude</div>' + addBtn('claude') + '</div>' + claude.map(renderRow).join('') + '</div>' +
-    '<div class="lane-block" style="margin-top:8px"><div class="lane-header teal"><div class="lane-title teal">🎓 Etapa 2: Ruta Platzi</div>' + addBtn('platzi') + '</div>' + platzi.map(renderRow).join('') + '</div>' +
+    // ── Platzi primero (Etapa 1) ──
+    '<div class="lane-block" style="margin-top:8px"><div class="lane-header teal"><div class="lane-title teal">🎓 Etapa 1 · Ruta IA Platzi — Aprendizaje continuo</div>' + addBtn('platzi') + '</div>' + platzi.map(renderRow).join('') + '</div>' +
+    // ── Claude segundo (Etapa 2) ──
+    '<div class="lane-block" style="margin-top:8px"><div class="lane-header purple"><div class="lane-title purple">🤖 Etapa 2 · Ruta Claude — Certificación</div>' + addBtn('claude') + '</div>' + claude.map(renderRow).join('') + '</div>' +
     '<div class="lane-block" style="margin-top:8px"><div class="lane-header rose"><div class="lane-title rose">🏆 Cierre compartido — Comité de Innovación</div>' + addBtn('shared_close') + '</div>' + close.map(renderRow).join('') + '</div>';
   updateMeta();
 }
 
-// ── Interacciones ───────────────────────────────────────────────────────────
 function toggleDone(id) {
   var s = stages.find(function(x){ return x.id===id; });
   if (s) { s.done = !s.done; saveAll(); render(); }
